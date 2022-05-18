@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "Heather",
-    "password": "HeatherMySQL",
-    "database": "node",
+    "username": "yours",
+    "password": "yours",
+    "database": "nod",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
