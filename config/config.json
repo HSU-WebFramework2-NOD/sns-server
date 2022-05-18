@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "your_username",
-    "password": "your_password",
+    "username": "yours",
+    "password": "yours",
     "database": "nod",
     "host": "127.0.0.1",
     "dialect": "mysql"
