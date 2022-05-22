@@ -8,13 +8,13 @@ html, body { margin: 0; padding: 0; height: 100%; }
   border-radius: 4px;
   background: white;
   border: 1px solid silver;
-  color: crimson;
+ /*  color: crimson; */
   height: 37px;
   line-height: 37px;
   vertical-align: top;
   font-size: 12px;
 }
-input[type='text'], input[type='email'], input[type='password'], textarea {
+/* input[type='text'], */ input[type='email'], input[type='password'], textarea {
   border-radius: 4px;
   height: 37px;
   padding: 10px;
@@ -22,87 +22,378 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
 }
 .container { width: 100%; height: 100%; }
 @media screen and (min-width: 800px) {
-  .container { width: 800px; margin: 0 auto; }
+  .container { 
+    width: 1200px; 
+    margin: 0 auto; }
 }
-.input-group { margin-bottom: 15px; }
-.input-group label { width: 25%; display: inline-block; }
+.input-group { 
+  margin-bottom: 10px;
+   
+}
+
+.input-group label { 
+  width: 25%; 
+  display: inline-block; }
 .input-group input { width: 70%; }
-.half { float: left; width: 50%; margin: 10px 0; }
-#join { float: right; }
+.half { 
+  float: left; 
+  width: 50%; 
+  margin: 10px 0; }
+
 .profile-wrap {
   width: 100%;
   display: inline-block;
   vertical-align: top;
-  margin: 10px 0;
+ /*  margin: 10px 0; */
+ position: fixed;
+ top: 0px;
 }
 @media screen and (min-width: 800px) {
-  .profile-wrap { width: 290px; margin-bottom: 0; }
+  .profile-wrap { 
+    width: 320px;  
+    height: 250px; 
+    margin-bottom: 0; 
+    /* border-left: 1px solid silver;  */
+ 
+  }
 }
+
 .profile {
+  /* height: 300px; */
   text-align: left;
-  padding: 10px;
-  margin-right: 10px;
-  border-radius: 4px;
-  border: 1px solid silver;
-  background: lightcoral;
+  padding-left: 50px;
+  padding-top: 40px;
+  margin-right: 20px;
+ /*  border-radius: 4px;
+  border: 1px solid silver; */
+ /*  background: lightcoral; */
 }
-.user-name { font-weight: bold; font-size: 18px; }
-.count { font-weight: bold; color: crimson; font-size: 18px; }
+.user-name { 
+  font-weight: bold; 
+  font-size: 30px; }
+.user-email{
+  font-size: 23px;
+  color: darkgray;
+}
+.count { 
+  font-weight: bold; 
+  /* color: crimson;  */
+  font-size: 22px;
+  float: left;
+}
+.follow{
+ /*  font-weight: bolder; */
+  font-size: 20px;
+  color: darkgray;
+  padding-left: 10px;
+}
+
+.middle{
+  width: 600px;
+  margin-left: 320px;
+  margin-top:70px;
+  /* margin-top: -690px; */
+  /* margin-top: -38px; */
+}
 .timeline {
-  margin-top: 10px;
-  width: 100%;
+/*   margin-top: -600px; */
+  /* width: 100%; */
+  width: 600px;
   display: inline-block;
-  border-radius: 4px;
+/*   border-radius: 4px; */
   vertical-align: top;
+/*   border-bottom: 1px solid silver; */
+ /*  padding-left: 10px; */
+/*  margin-left: 320px; */
+ /*  max-height: 587px; */
+  top:250;
+  
 }
-@media screen and (min-width: 800px) { .timeline { width: 500px; } }
+.header{
+/*   margin-top: -286px; */
+  padding-top: 10px;
+  padding-bottom: 5px;
+  font-size: 35px;
+  font-weight: bolder;
+  width: 600px;
+  border-left:2px solid #ececec;
+ /*  margin-left: 320px; */
+/*   border-top: 1px solid silver; */
+  border-bottom: 3px solid #ececec;
+  padding-bottom: 11px;
+  position: fixed;
+  top:0;
+  background-color: white;
+}
+#my-profile{
+font-size: 18px;
+padding-left: 50px;
+padding-right: 50px;
+
+margin-top: 10px;
+background-color: #ececec;
+border:2px solid darkgray;
+color:#808080;
+/* font-weight: bolder; */
+}
+#logout{
+  margin-top: 10px;
+  background-color: #ececec;
+border:2px solid darkgray;
+color:#808080;
+}
+#login-form{
+  width: 300px;
+  height: 50px;
+  margin-top:0;
+}
+
+@media screen /* and (min-width: 800px) */ { 
+  .timeline { 
+    width: 600px; 
+    padding-top: 5px;
+   /*  margin-top: 5px; */
+    border-left:2px solid #ececec;
+  } }
 #twit-form {
-  border-bottom: 1px solid silver;
+  border: 1px solid silver;
+  border-right:none;
+  border-right:2px solid #ececec;
+  border-top:2px solid #ececec;
+  border-bottom: none;
+  border-left:none;
   padding: 10px;
-  background: lightcoral;
+  width: 320px;
+  height: 510px;
+ /*  background: lightcoral; */
   overflow: hidden;
+  float: left;
+  position: fixed;
+  top: 250px;
+  bottom: 0px;
 }
-#img-preview { max-width: 100%; }
+#img-preview { 
+ width: 40px; 
+height: 40px;}
 #img-label {
   float: left;
   cursor: pointer;
   border-radius: 4px;
-  border: 1px solid crimson;
-  padding: 0 10px;
-  color: white;
-  font-size: 12px;
+  border:2px solid darkgray;
+  color: #808080;
+  font-size: 14px;
   height: 37px;
   line-height: 37px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
-#img { display: none; }
-#twit { width: 100%; min-height: 72px; }
+#img { 
+  display: none; }
+#twit { 
+  width: 100%; 
+  min-height: 300px
+}
 #twit-btn {
   float: right;
-  color: white;
-  background: crimson;
-  border: none;
+  color: #808080;
+  background-color: #ececec;
+/*   background: crimson; */
+border:2px solid darkgray;
+font-size: 14px;
 }
 .twit {
-  border: 1px solid silver;
-  border-radius: 4px;
+  border-bottom: 2px solid #f2f2f2;
+ /*  border-radius: 4px; */
   padding: 10px;
-  position: relative;
+/*   position: relative; */
   margin-bottom: 10px;
+/*   margin-left: 320px; */
 }
-.twit-author { display: inline-block; font-weight: bold; margin-right: 10px; }
+/* .twits{
+  float: left;
+} */
+
+/* .search{
+  border-radius: 50px;
+  background-color: #ececec;
+  color: gray;
+  border: none;
+  padding: 10px;
+  padding-left: 60px;
+  margin-right: 20px;
+  margin-top:20px;
+} */
+
+.search-icon{
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    left: 10px;
+    
+    color: #808080;
+}
+.twit-author { 
+  display: inline-block; 
+  font-weight: bold; 
+  margin-right: 10px; 
+  font-size: 25px;
+}
+.twit-email{
+  display: inline-block; 
+  font-weight: bold; 
+  margin-right: 10px; 
+  /* font-size: 25px; */
+  color: darkgray;
+}
 .twit-follow {
   padding: 1px 5px;
   background: #fff;
   border: 1px solid silver;
   border-radius: 5px;
-  color: crimson;
+  color:black;
+  /* color: crimson; */
   font-size: 12px;
   cursor: pointer;
+  float: right;
 }
 .twit-img { text-align: center; }
 .twit-img img { max-width: 75%; }
 .error-message { color: red; font-weight: bold; }
 #search-form { text-align: right; }
-#join-form { padding: 10px; text-align: center; }
-#hashtag-form { text-align: right; }
+#join-form { 
+  padding: 10px; 
+  text-align: left; 
+  margin-left: 400px;
+  width: 580px;
+}
+#hashtag-form { 
+  text-align: right; 
+  margin-left: 920px;
+  border: 1px solid silver;
+  border-left:2px solid #ececec;
+  border-right: none;
+  border-top:none;
+  border-bottom: none;
+  /* margin-top: -250px; */
+  padding-bottom: 700px;
+  padding-left: 20px;
+  padding-right: 5px;
+  position: fixed;
+  top: 0px;
+}
 footer { text-align: center; }
+
+
+
+
+
+input {
+ /*  border: 1px solid #F1F1F1;
+  border-radius: 50px;
+  width: 100%;
+  height: 100%; */
+  border-radius: 50px;
+  background-color: #ececec;
+  color: gray;
+  border: none;
+ /*  width: 100%; */
+  height: 100%;
+
+  padding: 15px;
+  padding-left: 60px;
+  margin-right: 20px;
+  margin-top:20px;
+}
+
+.icon {
+  
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  left: 10px;
+  margin-left: 30px;
+  margin-top:21px;
+}
+
+.search_ {
+  color: #808080;
+}
+
+/* 회원가입 */
+#join-email{
+
+  background-color: white;
+  width: 170px;
+}
+#join-nick{
+ 
+  border-radius: 4px;
+    height: 37px;
+    padding: 10px;
+    border: 1px solid silver;
+    background-color: white;
+    width: 170px;
+}
+#join-password{
+
+  background-color: white;
+  width: 170px;
+}
+#kakao{
+  color: black;
+  width: 240px;
+  background-color: #ececec;
+  font-size: 15px;
+  margin-top: 10px;
+  text-align: center;
+}
+#join{
+  color:black;
+  width: 240px;
+  background-color: #ececec;
+  font-size: 15px;
+  margin-top: 10px;
+  font-display: middle;
+  text-align: center;
+}
+#email{
+  background-color: white;
+  width: 240px;
+ /*  float: left;  */
+
+}
+#password{
+  margin-top: 5px;
+  background-color: white;
+  width: 240px;
+}
+#login{
+  float: left;
+  width: 240px;
+  background-color: #ececec;
+  font-size: 15px;
+  font-weight: bolder;
+  margin-top: 10px;
+}
+
+.login{
+  font-size: 20px;
+  font-weight: bolder;
+ margin-left: -20px;
+ margin-top: -25px;
+ width: 250px;
+}
+
+#join-btn{
+  width: 240px;
+  font-size: 15px;
+  font-weight: bolder;
+  background-color: #ececec;
+
+  margin-left: 30px;
+  margin-top: 20px;
+}

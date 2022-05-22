@@ -13,26 +13,49 @@ router.use((req, res, next) => {
 });
 
 router.get('/profile', isLoggedIn, (req, res) => {
-  res.render('profile', { title: 'Profile - prj-name' });
+  res.render('profile', { title: 'Profile - NOD' });
 });
 
 router.get('/join', isNotLoggedIn, (req, res) => {
-  res.render('join', { title: 'Join to - prj-name' });
+  res.render('join', { title: 'Join to - NOD' });
 });
 
 router.get('/', async (req, res, next) => {
-  try {
-    const posts = await Post.findAll({
-      include: {
-        model: User,
-        attributes: ['id', 'nickname'],
-      },
+  try {           /*  http://localhost:8001/?page=1&perPage=10 */
+    const page = Number(req.query.page || 1); // 값이 없다면 기본값으로 1 사용
+		const perPage = Number(req.query.perPage || 10);
+		 /* const total = await Post.countDocument({});  아래 total지우고 이부분을 총 document수 받아오는걸로 변경 */
+		const total = 20;
+    const totalPage = Math.ceil(total / perPage);
+		const posts = await Post.findAll({
+			include: {
+			  model: User,
+			  attributes: ['id', 'nickname','email'],
+			},
       order: [['createdAt', 'DESC']],
-    });
-    res.render('main', {
-      title: 'prj-name',
-      twits: posts,
-    });
+     /*  sort: {'createdAt':-1}, */
+      offset: perPage * (page - 1),
+      limit:perPage,
+		  })
+		  
+
+		  res.render('main', {
+			title: 'NOD',
+			twits: posts,
+      totalPage: totalPage,
+		  });
+		  
+    // const posts = await Post.findAll({
+    //   include: {
+    //     model: User,
+    //     attributes: ['id', 'nickname'],
+    //   },
+    //   order: [['createdAt', 'DESC']],
+    // });
+    // res.render('main', {
+    //   title: 'NOD',
+    //   twits: posts,
+    // });
   } catch (err) {
     console.error(err);
     next(err);
@@ -62,3 +85,4 @@ router.get('/hashtag', async (req, res, next) => {
 });
 
 module.exports = router;
+
