@@ -69,7 +69,7 @@
               <div class="twit2-author-email">{{twit2.email}}</div>
               
               {% if not followerIdList.includes(twit2.id) and twit2.id !== user.id %}
-                <button class="twit2-follow">팔로우하기</button>
+                <button class="twit-follow">팔로우하기</button>
               {% endif %}
               <div class="twit2-content">{{twit2.content}}</div>
               {% if twit.img %}
