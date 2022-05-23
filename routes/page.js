@@ -1,6 +1,7 @@
 const express = require('express');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const { Post, User, Hashtag } = require('../models');
+const Op = require("sequelize").Op;
 
 const router = express.Router();
 
@@ -68,16 +69,36 @@ router.get('/hashtag', async (req, res, next) => {
     return res.redirect('/');
   }
   try {
-    const hashtag = await Hashtag.findOne({ where: { title: query } });
-    let posts = [];
-    if (hashtag) {
-      posts = await hashtag.getPosts({ include: [{ model: User }] });
+    if (query.charAt(0) != '@') {
+      const hashtag = await Hashtag.findOne({ where: { title: query } });
+      let posts = [];
+      if (hashtag) {
+        posts = await hashtag.getPosts({ include: [{ model: User }] });
+      }
+
+      return res.render('main', {
+        title: `${query} | Nod`,
+        twits: posts,
+      });
     }
 
+    const idToFind = query.substring(1, query.length);
+    console.log(idToFind);
+
+    let users = [];
+    users = await User.findAll({
+      where: {
+        nickname : {
+          [Op.like]: "%" + idToFind + "%"
+        }
+      }
+    })
+
     return res.render('main', {
-      title: `${query} | NodeBird`,
-      twits: posts,
+      title: `${query} | Nod`,
+      twits: users,
     });
+
   } catch (error) {
     console.error(error);
     return next(error);
