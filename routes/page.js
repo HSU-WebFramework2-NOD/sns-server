@@ -22,7 +22,8 @@ router.get('/profile', isLoggedIn, async(req, res) => {
   const page = Number(req.query.page || 1); // 값이 없다면 기본값으로 1 사용
   const perPage = Number(req.query.perPage || 10);
    /* const total = await Post.countDocument({});  아래 total지우고 이부분을 총 document수 받아오는걸로 변경 */
-  const total = 20;
+  // const total = 20;
+  const total = await Post.count({});
   const totalPage = Math.ceil(total / perPage);
   const posts = await Post.findAll({
     include: {
