@@ -1,22 +1,126 @@
+
 {% extends 'layout.html' %}
 
+
 {% block content %}
-  <div class="timeline">
-    <div class="followings half">
-      <h2>팔로잉 목록</h2>
-      {% if user.Followings %}
-        {% for following in user.Followings %}
-          <div>{{following.nickname}}</div>
-        {% endfor %}
-      {% endif %}
+  <style>
+    #my-profile {display: none;}
+    #logout {display: none;}
+  </style>
+
+  <div class="con">
+    <div class="con1">
+      <div class="box">
+  
+      </div>
+      <div class="box2">
+        <div class="foll">
+          <p class="ing_btn chk">팔로잉</p>
+          <p class="ow_btn">팔로워</p>
+        </div>
+        <div class="box2_bottom">
+          <ul class="foll_ul ing">
+            {% if user.Followings %}
+              {% for following in user.Followings %}
+
+                <li>
+                  <div class="name">
+                    <h3>{{following.nickname}}</h3>
+                    <span>@{{following.nickname}}</span>
+                  </div>
+                  <button>팔로잉</button>
+                </li>
+              {% endfor %}
+          {% endif %}
+
+
+          </ul>
+          <ul class="foll_ul ow">
+
+            {% if user.Followers %}
+            {% for follower in user.Followers %}
+            <li>
+              <div class="name">
+                <h3>{{follower.nickname}}</h3>
+                <span>@{{follower.nickname}}</span>
+              </div>
+              <button>팔로잉</button>
+            </li>
+            {% endfor %}
+          {% endif %}
+    
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class="followers half">
-      <h2>팔로워 목록</h2>
-      {% if user.Followers %}
-        {% for follower in user.Followers %}
-          <div>{{follower.nickname}}</div>
-        {% endfor %}
-      {% endif %}
+    <div class="con2">
+      <div class="table">
+        <div class="table_top">
+          <h3>포스팅 목록</h3>
+        </div>
+        <div class="table_bottom">
+          <ul class="post">
+
+            {% for twit in twits %}
+            {% if twit.User.id == user.id %}
+              
+              <li> 
+       <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
+                <input type="hidden" value="{{twit.id}}" class="twit-id">
+                <h2 >{{twit.User.nickname}} <span class="twit_email">{{twit.User.email}}</span></h2>
+
+                <p>{{twit.content}}</p>
+                  {% if twit.img %}
+                  <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
+                  {% endif %}
+                  <i class="fa fa-heart fa-2x"></i>
+           
+              </li>
+              {% endif %}
+          
+
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="page">
+        <ul class="pagination modal">
+          <li> <a href="http://localhost:8000/?page=1&perPage=10" class="first"><<<</a> </li>
+          <li> <a href="http://localhost:8000/?page=1&perPage=10" class="num">1</a> </li>
+          <li> <a href="http://localhost:8000/?page=2&perPage=10" class="num">2</a> </li>
+          <li> <a href="http://localhost:8000/?page=3&perPage=10" class="num">3</a> </li>
+          <li> <a href="http://localhost:8000/?page=4&perPage=10" class="num">4</a> </li>
+          <li> <a href="http://localhost:8000/?page=5&perPage=10" class="num">5</a> </li>
+          <li> <a href="http://localhost:8000/?page=5&perPage=10" class="last">>>></a> </li>
+        </ul>
+      </div>
     </div>
   </div>
 {% endblock %}
+
+{% block script %}
+
+  <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script>
+    $(function(){
+      $(document)
+      .on("click" , ".ing_btn", function(){
+        $(".ow_btn").removeClass("chk");
+        $(this).addClass("chk");
+        $(".ing").css("display" , "block")
+        $(".ow").css("display" , "none")
+      })
+      .on("click" , ".ow_btn", function(){
+        $(".ing_btn").removeClass("chk");
+        $(this).addClass("chk");
+        $(".ow").css("display" , "block")
+        $(".ing").css("display" , "none")
+      })
+    })
+
+  </script>
+{% endblock %}
+
+
+
+
