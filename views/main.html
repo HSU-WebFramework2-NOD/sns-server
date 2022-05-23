@@ -2,6 +2,7 @@
 
 {% block content %}
     <div class="timeline">
+      <div id="home">
       {% if user %}
       <div id="top"></div>
       {% endif %}
@@ -19,48 +20,63 @@
             <div class="twit-author-email">{{twit.User.email}}</div>
             
             {% if not followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
-              <button class="twit-follow">팔로우하기</button>
+              <button class="twit-follow">팔로우</button>
             {% endif %}
             <div class="twit-content">{{twit.content}}</div>
             {% if twit.img %}
               <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
             {% endif %}
+            <div id="likebtn">
+              <!-- 좋아요버튼 -->
+            <img id="like" src="https://cdn-icons-png.flaticon.com/512/833/833472.png" width="20px">
+            <!-- 좋아요취소버튼
+            <img src="https://cdn-icons-png.flaticon.com/512/833/833300.png" width="20px"> -->
+            </div>
           </div>
         </div>
         {% endfor %}
 
       </div>
-
-
+    </div>
       <div id="feedRight">
         <form id="hashtag-form" action="/hashtag">
           <div id="searchbar">
+            {% if not hashtagQuery %}
             <input id="searchtag" type="text" name="hashtag" placeholder="태그 및 사용자 검색">
+            {% endif %}
+            {% if hashtagQuery %}
+            <input id="searchtag" type="text" name="hashtag" value="{{hashtagQuery}}">
+            {% endif %}
             <button id="img_btn" class="btn"><img src="https://cdn-icons-png.flaticon.com/512/49/49116.png" width="25px" height="25px"></button>
           </div>
         </form>
-
-        <div class="twits">
-
+  
+        <div class="twits2">
+  
           {% for twit2 in hashtagResults %}
           <div id="twitContainer2">
-            <div class="twit2">
+            <div class="twit3">
+  
+              
               <input type="hidden" value="{{twit2.id}}" class="twit-user-id">
               <input type="hidden" value="{{twit2.id}}" class="twit-id">
               <div class="twit2-author">{{twit2.User.nickname}}</div>
               <div class="twit2-author-email">{{twit2.User.email}}</div>
-              
+            
+  
+            
               {% if not followerIdList.includes(twit2.User.id) and twit2.User.id !== user.id %}
-                <button class="twit2-follow">팔로우하기</button>
+                <button class="twit-follow">팔로우</button>
               {% endif %}
               <div class="twit2-content">{{twit2.content}}</div>
               {% if twit.img %}
                 <div class="twit2-img"><img src="{{twit2.img}}" alt="섬네일"></div>
               {% endif %}
             </div>
+  
           </div>
           {% endfor %}
-
+  
           {% for twit2 in userResults %}
           <div id="twitContainer2">
             <div class="twit2">
@@ -69,7 +85,7 @@
               <div class="twit2-author-email">{{twit2.email}}</div>
               
               {% if not followerIdList.includes(twit2.id) and twit2.id !== user.id %}
-                <button class="twit-follow">팔로우하기</button>
+                <button class="twit-follow">팔로우</button>
               {% endif %}
               <div class="twit2-content">{{twit2.content}}</div>
               {% if twit.img %}
@@ -80,9 +96,11 @@
           {% endfor %}
   
         </div>
-
+  
       </div>
+
     </div>
+    
 {% endblock %}
 
 {% block script %}
@@ -123,6 +141,25 @@
       });
     });
 
+    document.querySelectorAll('.twit2-follow').forEach(function(tag) {
+      tag.addEventListener('click', function() {
+        const myId = document.querySelector('#my-id');
+        if (myId) {
+          const userId = tag.parentNode.querySelector('.twit-user-id').value;
+          if (userId !== myId.value) {
+            if (confirm('팔로잉하시겠습니까?')) {
+              axios.post(`/user/${userId}/follow`)
+                .then(() => {
+                  location.reload();
+                })
+                .catch((err) => {
+                  console.error(err);
+                });
+            }
+          }
+        }
+      });
+    });
 
     
   </script>

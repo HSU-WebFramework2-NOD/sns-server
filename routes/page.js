@@ -99,6 +99,7 @@ router.get('/hashtag', async (req, res, next) => {
         twits: feed,
         totalPage: totalPage,
         hashtagResults: posts,
+        hashtagQuery: query,
       });
     }
 
@@ -120,6 +121,7 @@ router.get('/hashtag', async (req, res, next) => {
       twits: feed,
       totalPage: totalPage,
       userResults: userList,
+      hashtagQuery: query,
     });
 
   } catch (error) {

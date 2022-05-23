@@ -35,10 +35,11 @@
               <label for="password">비밀번호</label>
               <input id="password" type="password" name="password" required>
             </div>
+            <div id="buttons">
             <button id="login" type="submit" class="btn">로그인</button>
             <a id="join" href="/join" class="btn">회원가입</a>
             <a id="kakao" href="/auth/kakao" class="btn">카카오톡</a>
-            
+          </div>
           </form>
         {% endif %}
         </div>
@@ -51,7 +52,7 @@
               <textarea id="twit" name="content" maxlength="140"></textarea>
             </div>
             <div class="img-preview">
-              <img id="img-preview" src="" style="display: none;" width="250" alt="미리보기">
+              <img id="img-preview" src="" style="display: none;" width="100" alt="미리보기">
               <input id="img-url" type="hidden" name="url">
             </div>
             <div id="uploadContainer">

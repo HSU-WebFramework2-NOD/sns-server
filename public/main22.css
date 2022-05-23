@@ -1,7 +1,7 @@
 /* * { box-sizing: border-box; } */
 html, body { margin: 0; padding: 0; height: 100%; }
 
-body {width: 100%; height: 100%; top: 0;}
+body {width: 100%; height: 100%; top: 0; overflow-x: hidden;}
 input[type='text'], input[type='email'], input[type='password'], textarea {
   border-radius: 4px;
   height: 37px;
@@ -13,28 +13,35 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   .container { width: 100%; height: 100%; }
 }
 .input-group { margin-bottom: 15px; display: inline-flex; }
-.input-group label { width: 30%; font-size: 0.9em; align-self: center; }
+.input-group label { width: 70px; font-size: 0.9em; align-self: center; }
 .input-group input { width: 70%; height: 20px; }
 .half { float: left; width: 50%; margin: 10px 0; }
 #join { float: right; }
 .profile-wrap {
-  width: 100%;
+  width: 330px;
   height: 100%;
   display: inline-block;
   vertical-align: top;
+  position: fixed;
+  /* pointer-events: none; */
+  z-index: 100;
+  border-right: 1px solid silver;
 }
 @media screen and (min-width: 800px) {
-  .profile-wrap { width: 330px; height: 100%; }
+  .profile-wrap { width: 330px; height: 100%;
+   }
 }
 .profile {
   /* position: fixed; */
-  width: 230px;
-  height: 160px;
+  width: 220px;
+  height: 130px;
   text-align: left;
-  padding-left: 50px;
-  padding-top: 40px;
+  padding-left: 55px;
+  padding-right: 55px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
-.user-name { font-weight: bold; font-size: 2rem; }
+.user-name { font-weight: bold; font-size: 1.3rem; }
 .user-email { color: rgb(160, 159, 159); }
 .count { font-weight: bold; font-size: 18px; }
 #my-profile {
@@ -80,7 +87,7 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
 }
 
 .timeline {
-  /* padding-left: 330px; */
+  padding-left: 330px;
   width: 800px;
   min-height: 1000px;
   display: inline-flex;
@@ -165,38 +172,6 @@ height: 200px; }
   /* padding-top: 100px; */
 }
 
-#twitContainer2{
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.twit2 {
-  width: 190px;
-  background-color: antiquewhite;
-  border: 1px solid silver;
-  border-radius: 4px;
-  padding: 10px;
-  position: relative;
-  margin-bottom: 10px;
-}
-.twit2-author { 
-  display: inline-block; 
-  font-weight: bold; 
-  margin-right: 10px; 
-}
-.twit2-follow {
-  text-align: right;
-  padding: 1px 5px;
-  background: #fff;
-  border: 1px solid rgb(114, 114, 114);
-  border-radius: 5px;
-  color: rgb(114, 114, 114);;
-  font-size: 12px;
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-.twit2-img { text-align: center; }
-.twit2-img img { max-width: 75%; }
-
 #twitContainer{
   padding-left: 20px;
   padding-right: 20px;
@@ -209,7 +184,12 @@ height: 200px; }
   position: relative;
   margin-bottom: 10px;
 }
-.twit-author { display: inline-block; font-weight: bold; margin-right: 10px; }
+.twit-author { 
+  display: inline-block; 
+  font-weight: bold; 
+  margin-right: 10px; 
+  font-size: 1.1em;
+}
 
 .twit-author-email {
   display: inline-block; font-weight: bold; margin-right: 10px;
@@ -218,6 +198,13 @@ height: 200px; }
   
 }
 
+.twit-content {
+  margin-top: 7px;
+}
+
+.twit-follow:hover {
+  background:rgb(234, 233, 233);
+}
 .twit-follow {
   padding: 1px 5px;
   background: #fff;
@@ -227,9 +214,13 @@ height: 200px; }
   font-size: 12px;
   cursor: pointer;
   margin-bottom: 10px;
+  float: right;
 }
 .twit-img { text-align: center; }
-.twit-img img { max-width: 75%; }
+.twit-img img { 
+  max-width: 75%; 
+  margin-top: 10px;
+}
 .error-message { color: red; font-weight: bold; }
 #search-form { text-align: right; }
 #join-form { padding: 10px; text-align: center; margin-left: 250px; margin-top: 100px; }
@@ -265,15 +256,21 @@ footer { text-align: center; }
   position: fixed;
 }
 
+#buttons {
+  display: inline-flex;
+  justify-content: space-between;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 #login {
-  display: inline-block;
   text-decoration: none;
   cursor: pointer;
   border-radius: 5px;
   color: black;
   border: 1px solid none;
-  height: 30px;
-  width: 60px;
+  height: 32px;
+  width: 70px;
   line-height: 30px;
   vertical-align: top;
   font-size: 14px;
@@ -282,14 +279,13 @@ footer { text-align: center; }
   border: 1px solid gray;
 }
 #kakao{
-  display: inline-block;
   text-decoration: none;
   cursor: pointer;
   border-radius: 5px;
   color: black;
   border: 1px solid none;
   height: 30px;
-  width: 60px;
+  width: 70px;
   line-height: 30px;
   vertical-align: top;
   font-size: 14px;
@@ -298,14 +294,13 @@ footer { text-align: center; }
   border: 1px solid gray;
 }
 #join{
-  display: inline-block;
   text-decoration: none;
   cursor: pointer;
   border-radius: 5px;
   color: black;
   border: 1px solid none;
   height: 30px;
-  width: 60px;
+  width: 70px;
   line-height: 30px;
   vertical-align: top;
   font-size: 14px;
@@ -315,16 +310,61 @@ footer { text-align: center; }
 }
 
 #email{
-  height: 20px;
+  height: 10px;
 }
 
 #password{
-  height: 20px;
+  height: 10px;
 }
-
 #join-form{
   padding-top: 100px;
   /* display: inline-flex; */
 }
 
+.twits2 {
+  margin-top: 50px;
+}
 
+.twit3 {
+  border: 1px solid silver;
+  border-radius: 5px;
+  width: 250px;
+  text-align: left;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.twit2 {
+  border: 1px solid silver;
+  border-radius: 5px;
+  width: 250px;
+  padding: 10px;
+  height: 25px;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+
+.twit2-follow {
+  padding: 1px 5px;
+  background: #fff;
+  border: 1px solid rgb(114, 114, 114);
+  border-radius: 5px;
+  color: rgb(114, 114, 114);;
+  font-size: 12px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.twit2-author { display: inline-block; font-weight: bold; margin-right: 10px; }
+
+.twit2-author-email {
+  display: inline-block; font-weight: bold; margin-right: 10px;
+  color: rgb(160, 159, 159);
+  font-size: 0.9em;
+  width: 120px;
+}
+
+#likebtn{
+  text-align: right;
+}
