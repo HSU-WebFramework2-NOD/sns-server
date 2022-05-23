@@ -173,7 +173,7 @@ height: 200px; }
   margin-bottom: 20px;
   /* padding-left: 20px; */
   position: fixed;
-  z-index: ;
+  z-index: 3;
   background-color: white;
 }
 
