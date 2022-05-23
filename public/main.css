@@ -6,7 +6,7 @@ a {text-decoration: none; color: #333;}
 ul , li {list-style: none;}
 
 .profile-wrap1 {
-  width: 400px;
+  width: 25%;
   height: 250px;
   display: inline-block;
   vertical-align: top;
@@ -103,9 +103,9 @@ ul , li {list-style: none;}
 }
 
 .box2 {
-  width: 450px;
+  width: 85%;
   max-height: 380px;
-  margin-left: 20px;
+  margin: auto;
   overflow: hidden;
   border: 1px solid #ccc;
 }
@@ -202,13 +202,15 @@ ul , li {list-style: none;}
 .con {
   display: flex;
   justify-content: flex-start;
+  height: 100%;
 }
 
 .con2 {
-  margin-top: 50px;
+  /* margin-top: 50px; */
   width: 62.5%;
   height: auto;
-  border: 1px solid #ccc;
+  border-left: 1px solid silver;
+  border-right: 1px solid silver;
 
 }
 .table {
@@ -220,11 +222,13 @@ ul , li {list-style: none;}
 .table {
   padding: 0;
   margin: 0;
+  height : 93%;
 }
 
 .table_top {
   width: 100%;
   padding: 0 20px;
+  margin-bottom: 20px;
   height: 60px;
   line-height: 60px;
   border-bottom: 1px solid #ccc;
@@ -238,10 +242,10 @@ ul , li {list-style: none;}
 
 .table_bottom {
   width: 100%;
-  height: 520px;
+  height: 100%;
   overflow-y: scroll;
   scrollbar-width: none;
-
+  padding-top : 75px;
 }
 
 .post li {
@@ -290,6 +294,9 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   border: 1px solid silver;
 }
 .container { width: 100%; height: 100%; }
+.container1 {
+  height : 100%;
+}
 @media screen and (min-width: 800px) {
   .container { width: 100%; height: 100%; }
 }
@@ -449,7 +456,7 @@ height: 200px; }
 }
 
 #h1container{
-  width:50%;
+  width:62%;
   border-bottom: 1px solid silver;
   margin-bottom: 20px;
   /* padding-left: 20px; */
@@ -460,6 +467,8 @@ height: 200px; }
 
 h1 {
   margin-left: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 #tophref{
   text-decoration: none;
@@ -526,7 +535,7 @@ h1 {
 }
 .twit-img { text-align: center; }
 .twit-img img { 
-  max-width: 50%; 
+  max-width: 30%; 
   margin-top: 10px;
 }
 .error-message { color: red; font-weight: bold; }
