@@ -1,69 +1,88 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-  <!--   <div class="timeline"> -->
+    <div class="timeline">
       {% if user %}
-      <div class="profile-wrap1"></div>
-        <div>
-          <form id="twit-form" action="/post" method="post" enctype="multipart/form-data">
-            <div class="input-group">
-              <textarea id="twit" name="content" maxlength="140"></textarea>
-            </div>
-            <div class="img-preview">
-              <img id="img-preview" src="" style="display: none;" width="250" alt="미리보기">
-              <input id="img-url" type="hidden" name="url">
-            </div>
-            <div>
-              <label id="img-label" for="img">사진 업로드</label>
-              <input id="img" type="file" accept="image/*">
-              <button id="twit-btn" type="submit" class="btn">업로드
-              </button><!-- <i class="fa-solid fa-paper-plane-top"  aria-hidden="true"></i> -->
-            </div>
-          </form>
-        </div>
+      <div id="top"></div>
       {% endif %}
-      <!-- <div class="twits"> -->
-        <form id="hashtag-form" action="/hashtag">
-          <!-- <input class="search" type="text" name="hashtag" placeholder="해시태그 및 사용자 검색">
-          <div class="search-icon">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </div> -->
+      <div id="h1container"><a id="tophref" href="/"><h1>Home</h1></a></div>
 
 
-          <div class="search-mode">
-            <input input class="search" type="text" name="hashtag" placeholder="해시태그 및 사용자 검색" >
-        
-            <div class="icon">
-              <div class="search_">
-                <i class="fas fa-search"></i>
-              </div>
-            </div>
-        
-            </div>
+      <div class="twits">
 
-          <!-- <button class="btn">검색</button> -->
-        </form>
-       <div class="middle">
-          <div class="header">&nbsp;&nbsp;Home</div>
-        <div class="timeline">
         {% for twit in twits %}
+        <div id="twitContainer">
           <div class="twit">
             <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
             <input type="hidden" value="{{twit.id}}" class="twit-id">
-            <div class="twit-author">&nbsp;{{twit.User.nickname}}</div>
-            <div class="twit-email">&nbsp;{{twit.User.email}}</div>
+            <div class="twit-author">{{twit.User.nickname}}</div>
+            <div class="twit-author-email">{{twit.User.email}}</div>
+            
             {% if not followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
-              <button class="twit-follow">팔로우</button>
+              <button class="twit-follow">팔로우하기</button>
             {% endif %}
-            <div class="twit-content">&nbsp;{{twit.content}}</div>
+            <div class="twit-content">{{twit.content}}</div>
             {% if twit.img %}
               <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
             {% endif %}
           </div>
+        </div>
         {% endfor %}
+
       </div>
 
- </div>
+
+      <div id="feedRight">
+        <form id="hashtag-form" action="/hashtag">
+          <div id="searchbar">
+            <input id="searchtag" type="text" name="hashtag" placeholder="태그 및 사용자 검색">
+            <button id="img_btn" class="btn"><img src="https://cdn-icons-png.flaticon.com/512/49/49116.png" width="25px" height="25px"></button>
+          </div>
+        </form>
+
+        <div class="twits">
+
+          {% for twit2 in hashtagResults %}
+          <div id="twitContainer2">
+            <div class="twit2">
+              <input type="hidden" value="{{twit2.id}}" class="twit-user-id">
+              <input type="hidden" value="{{twit2.id}}" class="twit-id">
+              <div class="twit2-author">{{twit2.User.nickname}}</div>
+              <div class="twit2-author-email">{{twit2.User.email}}</div>
+              
+              {% if not followerIdList.includes(twit2.User.id) and twit2.User.id !== user.id %}
+                <button class="twit2-follow">팔로우하기</button>
+              {% endif %}
+              <div class="twit2-content">{{twit2.content}}</div>
+              {% if twit.img %}
+                <div class="twit2-img"><img src="{{twit2.img}}" alt="섬네일"></div>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+
+          {% for twit2 in userResults %}
+          <div id="twitContainer2">
+            <div class="twit2">
+              <input type="hidden" value="{{twit2.id}}" class="twit-user-id">
+              <div class="twit2-author">{{twit2.nickname}}</div>
+              <div class="twit2-author-email">{{twit2.email}}</div>
+              
+              {% if not followerIdList.includes(twit2.id) and twit2.id !== user.id %}
+                <button class="twit2-follow">팔로우하기</button>
+              {% endif %}
+              <div class="twit2-content">{{twit2.content}}</div>
+              {% if twit.img %}
+                <div class="twit2-img"><img src="{{twit2.img}}" alt="섬네일"></div>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+  
+        </div>
+
+      </div>
+    </div>
 {% endblock %}
 
 {% block script %}
@@ -103,6 +122,8 @@
         }
       });
     });
+
+
+    
   </script>
 {% endblock %}
-

@@ -69,6 +69,24 @@ router.get('/hashtag', async (req, res, next) => {
     return res.redirect('/');
   }
   try {
+    /** middle feeds */
+    const page = Number(req.query.page || 1); // 값이 없다면 기본값으로 1 사용
+		const perPage = Number(req.query.perPage || 10);
+		 /* const total = await Post.countDocument({});  아래 total지우고 이부분을 총 document수 받아오는걸로 변경 */
+		const total = 20;
+    const totalPage = Math.ceil(total / perPage);
+		const feed = await Post.findAll({
+			include: {
+			  model: User,
+			  attributes: ['id', 'nickname','email'],
+			},
+      order: [['createdAt', 'DESC']],
+     /*  sort: {'createdAt':-1}, */
+      offset: perPage * (page - 1),
+      limit:perPage,
+		  })
+
+    /** hashtag search */
     if (query.charAt(0) != '@') {
       const hashtag = await Hashtag.findOne({ where: { title: query } });
       let posts = [];
@@ -77,16 +95,19 @@ router.get('/hashtag', async (req, res, next) => {
       }
 
       return res.render('main', {
-        title: `${query} | Nod`,
-        twits: posts,
+        title: `${query} | NOD`,
+        twits: feed,
+        totalPage: totalPage,
+        hashtagResults: posts,
       });
     }
 
+    /** user search */
     const idToFind = query.substring(1, query.length);
     console.log(idToFind);
 
-    let users = [];
-    users = await User.findAll({
+    let userList = [];
+    userList = await User.findAll({
       where: {
         nickname : {
           [Op.like]: "%" + idToFind + "%"
@@ -95,8 +116,10 @@ router.get('/hashtag', async (req, res, next) => {
     })
 
     return res.render('main', {
-      title: `${query} | Nod`,
-      twits: users,
+      title: `${query} | NOD`,
+      twits: feed,
+      totalPage: totalPage,
+      userResults: userList,
     });
 
   } catch (error) {
