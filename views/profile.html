@@ -1,126 +1,184 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/public/icon/css/font-awesome.min.css">
+    <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 
-{% extends 'layout.html' %}
-
-
-{% block content %}
-  <style>
-    #my-profile {display: none;}
-    #logout {display: none;}
-  </style>
-
-  <div class="con">
-    <div class="con1">
-      <div class="box">
-  
-      </div>
-      <div class="box2">
-        <div class="foll">
-          <p class="ing_btn chk">팔로잉</p>
-          <p class="ow_btn">팔로워</p>
+  </head>
+  <body class="body1">
+    <div class="container1">
+      <div class="profile-wrap1">
+        <div class="profile1">
+          <div class="pro_top1">
+            <a href="/"><i class="fa fa-home fa-2x"></i></a>
+            <button>프로필 수정</button>
+          </div>
+          {% if user and user.id %}
+            <div class="user-name1">{{ user.nickname}}</div>
+            <div class="user-email1">{{ user.email}}</div>
+            <div class="h_num1">
+              <div class="half1">
+                <div class="count1">{{followingCount}}</div>
+                <div class="follow1">&nbsp;팔로잉</div>
+                
+              </div>
+              <div class="half1">
+                <div class="count1">{{followerCount}}</div>
+                <div class="follow1">&nbsp;팔로워</div>
+              </div>
+            </div>
+          <input id="my-id1" type="hidden" value="{{user.id}}">
+          <!-- <a id="my-profile1" href="/profile" class="btn">프로필</a>
+          <a id="logout1" href="/auth/logout" class="btn">로그아웃</a> -->
+        {% else %}
+          <form id="login-form1" action="/auth/login" method="post">
+            <div class="login1">로그인<hr/>
+            <div class="input-group">
+             <!--  <label for="email">이메일</label> -->
+              <input id="email1" type="email" name="email"placeholder="이메일" required autofocus>
+            </div>
+            <div class="input-group1">
+              <!-- <label for="password">비밀번호</label> -->
+              <input id="password1" type="password" name="password"placeholder="비밀번호" required >
+            </div>
+           
+         </div> </form>
+        {% endif %}
         </div>
-        <div class="box2_bottom">
-          <ul class="foll_ul ing">
-            {% if user.Followings %}
-              {% for following in user.Followings %}
-
+      
+      </div>
+      {% block content %}
+      <style>
+        #my-profile {display: none;}
+        #logout {display: none;}
+      </style>
+    
+      <div class="con">
+        <div class="con1">
+          <div class="box1">
+      
+          </div>
+          <div class="box2">
+            <div class="foll">
+              <p class="ing_btn chk">팔로잉</p>
+              <p class="ow_btn">팔로워</p>
+            </div>
+            <div class="box2_bottom">
+              <ul class="foll_ul ing">
+                {% if user.Followings %}
+                  {% for following in user.Followings %}
+    
+                    <li>
+                      <div class="name">
+                        <h3>{{following.nickname}}</h3>
+                        <span>@{{following.nickname}}</span>
+                      </div>
+                      <button>팔로잉</button>
+                    </li>
+                  {% endfor %}
+              {% endif %}
+    
+    
+              </ul>
+              <ul class="foll_ul ow">
+    
+                {% if user.Followers %}
+                {% for follower in user.Followers %}
                 <li>
                   <div class="name">
-                    <h3>{{following.nickname}}</h3>
-                    <span>@{{following.nickname}}</span>
+                    <h3>{{follower.nickname}}</h3>
+                    <span>@{{follower.nickname}}</span>
                   </div>
                   <button>팔로잉</button>
                 </li>
-              {% endfor %}
-          {% endif %}
-
-
-          </ul>
-          <ul class="foll_ul ow">
-
-            {% if user.Followers %}
-            {% for follower in user.Followers %}
-            <li>
-              <div class="name">
-                <h3>{{follower.nickname}}</h3>
-                <span>@{{follower.nickname}}</span>
-              </div>
-              <button>팔로잉</button>
-            </li>
-            {% endfor %}
-          {% endif %}
-    
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="con2">
-      <div class="table">
-        <div class="table_top">
-          <h3>포스팅 목록</h3>
-        </div>
-        <div class="table_bottom">
-          <ul class="post">
-
-            {% for twit in twits %}
-            {% if twit.User.id == user.id %}
-              
-              <li> 
-       <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
-                <input type="hidden" value="{{twit.id}}" class="twit-id">
-                <h2 >{{twit.User.nickname}} <span class="twit_email">{{twit.User.email}}</span></h2>
-
-                <p>{{twit.content}}</p>
-                  {% if twit.img %}
-                  <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
-                  {% endif %}
-                  <i class="fa fa-heart fa-2x"></i>
-           
-              </li>
+                {% endfor %}
               {% endif %}
-          
-
-            {% endfor %}
-          </ul>
+        
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="con2">
+          <div class="table">
+            <div class="table_top">
+              <h3>포스팅 목록</h3>
+            </div>
+            <div class="table_bottom">
+              <ul class="post">
+    
+                {% for twit in twits %}
+                {% if twit.User.id == user.id %}
+                  
+                  <li> 
+           <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
+                    <input type="hidden" value="{{twit.id}}" class="twit-id">
+                    <h2 >{{twit.User.nickname}} <span class="twit_email">{{twit.User.email}}</span></h2>
+    
+                    <p>{{twit.content}}</p>
+                      {% if twit.img %}
+                      <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
+                      {% endif %}
+                      <i class="fa fa-heart fa-2x"></i>
+               
+                  </li>
+                  {% endif %}
+              
+    
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+          <div class="page">
+            <ul class="pagination modal">
+              <li> <a href="http://localhost:8000/?page=1&perPage=10" class="first"><<<</a> </li>
+              <li> <a href="http://localhost:8000/?page=1&perPage=10" class="num">1</a> </li>
+              <li> <a href="http://localhost:8000/?page=2&perPage=10" class="num">2</a> </li>
+              <li> <a href="http://localhost:8000/?page=3&perPage=10" class="num">3</a> </li>
+              <li> <a href="http://localhost:8000/?page=4&perPage=10" class="num">4</a> </li>
+              <li> <a href="http://localhost:8000/?page=5&perPage=10" class="num">5</a> </li>
+              <li> <a href="http://localhost:8000/?page=5&perPage=10" class="last">>>></a> </li>
+            </ul>
+          </div>
         </div>
       </div>
-      <div class="page">
-        <ul class="pagination modal">
-          <li> <a href="http://localhost:8000/?page=1&perPage=10" class="first"><<<</a> </li>
-          <li> <a href="http://localhost:8000/?page=1&perPage=10" class="num">1</a> </li>
-          <li> <a href="http://localhost:8000/?page=2&perPage=10" class="num">2</a> </li>
-          <li> <a href="http://localhost:8000/?page=3&perPage=10" class="num">3</a> </li>
-          <li> <a href="http://localhost:8000/?page=4&perPage=10" class="num">4</a> </li>
-          <li> <a href="http://localhost:8000/?page=5&perPage=10" class="num">5</a> </li>
-          <li> <a href="http://localhost:8000/?page=5&perPage=10" class="last">>>></a> </li>
-        </ul>
-      </div>
+    {% endblock %}
     </div>
-  </div>
-{% endblock %}
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      window.onload = () => {
+        if (new URL(location.href).searchParams.get('loginError')) {
+          alert(new URL(location.href).searchParams.get('loginError'));
+        }
+      };
+    </script>
+   {% block script %}
 
-{% block script %}
-
-  <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-  <script>
-    $(function(){
-      $(document)
-      .on("click" , ".ing_btn", function(){
-        $(".ow_btn").removeClass("chk");
-        $(this).addClass("chk");
-        $(".ing").css("display" , "block")
-        $(".ow").css("display" , "none")
-      })
-      .on("click" , ".ow_btn", function(){
-        $(".ing_btn").removeClass("chk");
-        $(this).addClass("chk");
-        $(".ow").css("display" , "block")
-        $(".ing").css("display" , "none")
-      })
-    })
-
-  </script>
-{% endblock %}
-
-
+   <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+   <script>
+     $(function(){
+       $(document)
+       .on("click" , ".ing_btn", function(){
+         $(".ow_btn").removeClass("chk");
+         $(this).addClass("chk");
+         $(".ing").css("display" , "block")
+         $(".ow").css("display" , "none")
+       })
+       .on("click" , ".ow_btn", function(){
+         $(".ing_btn").removeClass("chk");
+         $(this).addClass("chk");
+         $(".ow").css("display" , "block")
+         $(".ing").css("display" , "none")
+       })
+     })
+ 
+   </script>
+ {% endblock %}
+  </body>
+</html>
 
 
