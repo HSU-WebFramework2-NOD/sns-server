@@ -29,24 +29,14 @@
             {% endif %}
 
             <div id="likebtn">
-              <img id="like" src="https://cdn-icons-png.flaticon.com/512/833/833300.png" width="20px" onclick="like()">
-            </div>
-            {% for like in likes %}
-            <p>here...</p>
-            <div id="likebtn2">
-              {% if not like.UserId %}
-              <!--  -->
-              <p>here...</p>
-              {% endif %}
               <!-- 좋아요버튼 -->
               {% if user.id == like.UserId %}
-              <img id="like" src="https://cdn-icons-png.flaticon.com/512/833/833300.png" width="20px" onclick="like()">
+              <img id="like" src="https://cdn-icons-png.flaticon.com/512/833/833300.png" width="20px" onclick="like()" alt="{{like.UserId}}">
               {% endif %}
               {% if user.id !== like.UserId %}
-              <img id="like" src="https://cdn-icons-png.flaticon.com/512/833/833472.png" width="20px" onclick="like()">
+              <img id="dislike" src="https://cdn-icons-png.flaticon.com/512/833/833472.png" width="20px" onclick="like()" alt="{{like.UserId}}">
               {% endif %}
             </div>
-            {% endfor %}
           </div>
         </div>
         {% endfor %}
@@ -185,20 +175,34 @@
         })
       });
     });
+    document.querySelectorAll('#dislike').forEach(function(tag) {
+      tag.addEventListener('click', function() {
+        const myId = document.querySelector('#my-id').value;
+        const postId = tag.parentNode.parentNode.querySelector('.twit-id').value;
+        axios.delete('/dislike', {
+          myId,
+          postId
+        }, null)
+        .catch((err) => {
+          console.error(err);
+        })
+      });
+    });
 
-    function like(){
-      var icon = document.getElementById("like");
-      var fullHeart = "https://cdn-icons-png.flaticon.com/512/833/833300.png"
-      var emptyHeart = "https://cdn-icons-png.flaticon.com/512/833/833472.png"
+    // function like(){
+    //   var icon = document.getElementById("like");
+    //   var icon2 = document.getElementById("dislike");
+    //   var fullHeart = "https://cdn-icons-png.flaticon.com/512/833/833300.png"
+    //   var emptyHeart = "https://cdn-icons-png.flaticon.com/512/833/833472.png"
       
-      if(icon.src == fullHeart ) {
-        icon.setAttribute("src", emptyHeart);
-      }
-      else {
-        icon.setAttribute("src", fullHeart);
-      }
+    //   if(icon.src == fullHeart || icon2.src == fullHeart) {
+    //     icon.setAttribute("src", emptyHeart);
+    //   }
+    //   else {
+    //     icon.setAttribute("src", fullHeart);
+    //   }
         
-    }
+    // }
     
   </script>
 {% endblock %}

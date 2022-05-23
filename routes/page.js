@@ -10,6 +10,7 @@ router.use((req, res, next) => {
   res.locals.followerCount = req.user ? req.user.Followers.length : 0;
   res.locals.followingCount = req.user ? req.user.Followings.length : 0;
   res.locals.followerIdList = req.user ? req.user.Followings.map(f => f.id) : [];
+  res.locals.likeList = req.user ? req.user.Like : [];
   next();
 });
 
@@ -75,17 +76,6 @@ router.get('/', async (req, res, next) => {
       totalPage: totalPage,
 		  });
 		  
-    // const posts = await Post.findAll({
-    //   include: {
-    //     model: User,
-    //     attributes: ['id', 'nickname'],
-    //   },
-    //   order: [['createdAt', 'DESC']],
-    // });
-    // res.render('main', {
-    //   title: 'NOD',
-    //   twits: posts,
-    // });
   } catch (err) {
     console.error(err);
     next(err);
@@ -183,16 +173,60 @@ router.post('/like', isLoggedIn, async (req, res, next) => {
       limit:perPage,
 		  });
       
-      const likes = await Like.findAll({
-        where: {
-          UserId: myId,
-        }
-      });
+      // const likes = await Like.findAll({
+      //   where: {
+      //     UserId: myId,
+      //   }
+      // });
 
     return res.render('main', {
       title: `NOD`,
       twits: feed,
-      likes: likes,
+      // likes: likes,
+    });
+
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+router.delete('/dislike', isLoggedIn, async (req, res, next) => {
+  const { myId, postId } = req.body;
+  console.log(`${myId} + ${postId}`);
+  try {
+    const like = await Like.destroy({
+      where: {
+        UserId: myId,
+        PostId: postId,
+      }
+    });
+
+    const page = Number(req.query.page || 1);
+		const perPage = Number(req.query.perPage || 10);
+    const feed = await Post.findAll({
+			include: {
+			  model: User,
+			  attributes: ['id', 'nickname','email'],
+        // model: Like,
+        // attributes: ['UserId', 'PostId'],
+			},
+      order: [['createdAt', 'DESC']],
+     /*  sort: {'createdAt':-1}, */
+      offset: perPage * (page - 1),
+      limit:perPage,
+		  });
+      
+      // const likes = await Like.findAll({
+      //   where: {
+      //     UserId: myId,
+      //   }
+      // });
+
+    return res.render('main', {
+      title: `NOD`,
+      twits: feed,
+      // likes: likes,
     });
 
   } catch (err) {
