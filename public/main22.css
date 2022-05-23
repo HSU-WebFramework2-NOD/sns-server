@@ -253,7 +253,9 @@ footer { text-align: center; }
   padding-left: 820px;
   margin-left: 20px;
   width:350px;
+  height: 100%;
   position: fixed;
+  border-right: 1px solid silver;
 }
 
 #buttons {
