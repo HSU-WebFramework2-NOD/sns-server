@@ -1,2 +1,4 @@
-./config/
+
 .env
+.gitignore
+config/config.json

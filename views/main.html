@@ -1,69 +1,127 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-  <!--   <div class="timeline"> -->
+    <div class="timeline">
+      <div id="home">
       {% if user %}
-      <div class="profile-wrap1"></div>
-        <div>
-          <form id="twit-form" action="/post" method="post" enctype="multipart/form-data">
-            <div class="input-group">
-              <textarea id="twit" name="content" maxlength="140"></textarea>
-            </div>
-            <div class="img-preview">
-              <img id="img-preview" src="" style="display: none;" width="250" alt="미리보기">
-              <input id="img-url" type="hidden" name="url">
-            </div>
-            <div>
-              <label id="img-label" for="img">사진 업로드</label>
-              <input id="img" type="file" accept="image/*">
-              <button id="twit-btn" type="submit" class="btn">업로드
-              </button><!-- <i class="fa-solid fa-paper-plane-top"  aria-hidden="true"></i> -->
-            </div>
-          </form>
-        </div>
+      <div id="top"></div>
       {% endif %}
-      <!-- <div class="twits"> -->
-        <form id="hashtag-form" action="/hashtag">
-          <!-- <input class="search" type="text" name="hashtag" placeholder="해시태그 및 사용자 검색">
-          <div class="search-icon">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </div> -->
+      <div id="h1container"><a id="tophref" href="/"><h1>Home</h1></a></div>
 
 
-          <div class="search-mode">
-            <input input class="search" type="text" name="hashtag" placeholder="해시태그 및 사용자 검색" >
-        
-            <div class="icon">
-              <div class="search_">
-                <i class="fas fa-search"></i>
-              </div>
-            </div>
-        
-            </div>
+      <div class="twits">
 
-          <!-- <button class="btn">검색</button> -->
-        </form>
-       <div class="middle">
-          <div class="header">&nbsp;&nbsp;Home</div>
-        <div class="timeline">
+
         {% for twit in twits %}
+        <div id="twitContainer">
           <div class="twit">
             <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
             <input type="hidden" value="{{twit.id}}" class="twit-id">
-            <div class="twit-author">&nbsp;{{twit.User.nickname}}</div>
-            <div class="twit-email">&nbsp;{{twit.User.email}}</div>
+            <div class="twit-author">{{twit.User.nickname}}</div>
+            <div class="twit-author-email">{{twit.User.email}}</div>
+            
             {% if not followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
               <button class="twit-follow">팔로우</button>
             {% endif %}
-            <div class="twit-content">&nbsp;{{twit.content}}</div>
+            <div class="twit-content">{{twit.content}}</div>
             {% if twit.img %}
               <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
             {% endif %}
-          </div>
-        {% endfor %}
-      </div>
 
- </div>
+            <div id="likebtn">
+              <!-- 좋아요버튼 -->
+              {% if user.id == like.UserId %}
+              <img id="like" src="https://cdn-icons-png.flaticon.com/512/833/833300.png" width="20px" onclick="like()" alt="{{like.UserId}}">
+              {% endif %}
+              {% if user.id !== like.UserId %}
+              <img id="dislike" src="https://cdn-icons-png.flaticon.com/512/833/833472.png" width="20px" onclick="like()" alt="{{like.UserId}}">
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+        <div class="page">
+          <ul class="pagination modal">
+            <li> <a href="/?page=1&perPage=10" class="first"><<<</a> </li>
+            <li> <a href="/?page=1&perPage=10" class="num">1</a> </li>
+            <li> <a href="/?page=2&perPage=10" class="num">2</a> </li>
+            <li> <a href="/?page=3&perPage=10" class="num">3</a> </li>
+            <li> <a href="/?page=4&perPage=10" class="num">4</a> </li>
+            <li> <a href="/?page=5&perPage=10" class="num">5</a> </li>
+            <li> <a href="/?page=5&perPage=10" class="last">>>></a> </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+
+      <div id="feedRight">
+
+        <div id="searchContainer">
+        <form id="hashtag-form" action="/hashtag">
+          <div id="searchbar">
+            {% if not hashtagQuery %}
+            <input id="searchtag" type="text" name="hashtag" placeholder="태그 및 사용자 검색">
+            {% endif %}
+            {% if hashtagQuery %}
+            <input id="searchtag" type="text" name="hashtag" value="{{hashtagQuery}}">
+            {% endif %}
+            <button id="img_btn" class="btn"><img src="https://cdn-icons-png.flaticon.com/512/49/49116.png" width="25px" height="25px"></button>
+          </div>
+        </form>
+  
+        <div class="twits2">
+  
+          {% for twit2 in hashtagResults %}
+          <div id="twitContainer2">
+            <div class="twit3">
+  
+              
+              <input type="hidden" value="{{twit2.id}}" class="twit-user-id">
+              <input type="hidden" value="{{twit2.id}}" class="twit-id">
+              <div class="twit2-author">{{twit2.User.nickname}}</div>
+              <div class="twit2-author-email">{{twit2.User.email}}</div>
+            
+  
+            
+              {% if not followerIdList.includes(twit2.User.id) and twit2.User.id !== user.id %}
+                <button class="twit-follow">팔로우</button>
+              {% endif %}
+              <div class="twit2-content">{{twit2.content}}</div>
+              {% if twit.img %}
+                <div class="twit2-img"><img src="{{twit2.img}}" alt="섬네일"></div>
+              {% endif %}
+            </div>
+  
+          </div>
+          {% endfor %}
+  
+          {% for twit2 in userResults %}
+          <div id="twitContainer2">
+            <div class="twit2">
+              <input type="hidden" value="{{twit2.id}}" class="twit-user-id">
+              <div class="twit2-author">{{twit2.nickname}}</div>
+              <div class="twit2-author-email">{{twit2.email}}</div>
+              
+              {% if not followerIdList.includes(twit2.id) and twit2.id !== user.id %}
+                <button class="twit-follow">팔로우</button>
+              {% endif %}
+              <div class="twit2-content">{{twit2.content}}</div>
+              {% if twit.img %}
+                <div class="twit2-img"><img src="{{twit2.img}}" alt="섬네일"></div>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+  
+        </div>
+  
+      </div>
+    </div>
+    </div>
+    
 {% endblock %}
 
 {% block script %}
@@ -103,6 +161,48 @@
         }
       });
     });
+
+    document.querySelectorAll('#like').forEach(function(tag) {
+      tag.addEventListener('click', function() {
+        const myId = document.querySelector('#my-id').value;
+        const postId = tag.parentNode.parentNode.querySelector('.twit-id').value;
+        axios.post('/like', {
+          myId,
+          postId
+        }, null)
+        .catch((err) => {
+          console.error(err);
+        })
+      });
+    });
+    document.querySelectorAll('#dislike').forEach(function(tag) {
+      tag.addEventListener('click', function() {
+        const myId = document.querySelector('#my-id').value;
+        const postId = tag.parentNode.parentNode.querySelector('.twit-id').value;
+        axios.delete('/dislike', {
+          myId,
+          postId
+        }, null)
+        .catch((err) => {
+          console.error(err);
+        })
+      });
+    });
+
+    // function like(){
+    //   var icon = document.getElementById("like");
+    //   var icon2 = document.getElementById("dislike");
+    //   var fullHeart = "https://cdn-icons-png.flaticon.com/512/833/833300.png"
+    //   var emptyHeart = "https://cdn-icons-png.flaticon.com/512/833/833472.png"
+      
+    //   if(icon.src == fullHeart || icon2.src == fullHeart) {
+    //     icon.setAttribute("src", emptyHeart);
+    //   }
+    //   else {
+    //     icon.setAttribute("src", fullHeart);
+    //   }
+        
+    // }
+    
   </script>
 {% endblock %}
-
