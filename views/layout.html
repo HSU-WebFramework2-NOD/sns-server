@@ -14,6 +14,7 @@
           {% if user and user.id %}
             <div class="user-name">{{user.nickname}}</div>
             <div class="user-email">{{user.email}}</div>
+            <div id="halfContainer">
             <div class="half">
               <span class="count following-count">{{followingCount}}</span>
               <span>팔로잉</span>
@@ -22,6 +23,7 @@
               <span class="count follower-count">{{followerCount}}</span>
               <span>팔로워</span>
             </div>
+          </div>
           <input id="my-id" type="hidden" value="{{user.id}}">
           <a id="my-profile" href="/profile" class="btn">내 프로필</a>
           <a id="logout" href="/auth/logout" class="btn">로그아웃</a>
@@ -46,13 +48,13 @@
 
         <div id="underProfile"></div>
 
-        <div>
+        <div id="formContainer">
           <form id="twit-form" action="/post" method="post" enctype="multipart/form-data">
             <div class="input-group">
               <textarea id="twit" name="content" maxlength="140"></textarea>
             </div>
             <div class="img-preview">
-              <img id="img-preview" src="" style="display: none;" width="100" alt="미리보기">
+              <img id="img-preview" src="" style="display: none;" width="250" alt="미리보기">
               <input id="img-url" type="hidden" name="url">
             </div>
             <div id="uploadContainer">

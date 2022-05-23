@@ -11,6 +11,7 @@
 
       <div class="twits">
 
+
         {% for twit in twits %}
         <div id="twitContainer">
           <div class="twit">
@@ -26,19 +27,49 @@
             {% if twit.img %}
               <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
             {% endif %}
+
             <div id="likebtn">
-              <!-- 좋아요버튼 -->
-            <img id="like" src="https://cdn-icons-png.flaticon.com/512/833/833472.png" width="20px">
-            <!-- 좋아요취소버튼
-            <img src="https://cdn-icons-png.flaticon.com/512/833/833300.png" width="20px"> -->
+              <img id="like" src="https://cdn-icons-png.flaticon.com/512/833/833300.png" width="20px" onclick="like()">
             </div>
+            {% for like in likes %}
+            <p>here...</p>
+            <div id="likebtn2">
+              {% if not like.UserId %}
+              <!--  -->
+              <p>here...</p>
+              {% endif %}
+              <!-- 좋아요버튼 -->
+              {% if user.id == like.UserId %}
+              <img id="like" src="https://cdn-icons-png.flaticon.com/512/833/833300.png" width="20px" onclick="like()">
+              {% endif %}
+              {% if user.id !== like.UserId %}
+              <img id="like" src="https://cdn-icons-png.flaticon.com/512/833/833472.png" width="20px" onclick="like()">
+              {% endif %}
+            </div>
+            {% endfor %}
           </div>
         </div>
         {% endfor %}
 
+        <div class="page">
+          <ul class="pagination modal">
+            <li> <a href="/?page=1&perPage=10" class="first"><<<</a> </li>
+            <li> <a href="/?page=1&perPage=10" class="num">1</a> </li>
+            <li> <a href="/?page=2&perPage=10" class="num">2</a> </li>
+            <li> <a href="/?page=3&perPage=10" class="num">3</a> </li>
+            <li> <a href="/?page=4&perPage=10" class="num">4</a> </li>
+            <li> <a href="/?page=5&perPage=10" class="num">5</a> </li>
+            <li> <a href="/?page=5&perPage=10" class="last">>>></a> </li>
+          </ul>
+        </div>
+
       </div>
     </div>
+
+
       <div id="feedRight">
+
+        <div id="searchContainer">
         <form id="hashtag-form" action="/hashtag">
           <div id="searchbar">
             {% if not hashtagQuery %}
@@ -98,7 +129,7 @@
         </div>
   
       </div>
-
+    </div>
     </div>
     
 {% endblock %}
@@ -141,26 +172,33 @@
       });
     });
 
-    document.querySelectorAll('.twit2-follow').forEach(function(tag) {
+    document.querySelectorAll('#like').forEach(function(tag) {
       tag.addEventListener('click', function() {
-        const myId = document.querySelector('#my-id');
-        if (myId) {
-          const userId = tag.parentNode.querySelector('.twit-user-id').value;
-          if (userId !== myId.value) {
-            if (confirm('팔로잉하시겠습니까?')) {
-              axios.post(`/user/${userId}/follow`)
-                .then(() => {
-                  location.reload();
-                })
-                .catch((err) => {
-                  console.error(err);
-                });
-            }
-          }
-        }
+        const myId = document.querySelector('#my-id').value;
+        const postId = tag.parentNode.parentNode.querySelector('.twit-id').value;
+        axios.post('/like', {
+          myId,
+          postId
+        }, null)
+        .catch((err) => {
+          console.error(err);
+        })
       });
     });
 
+    function like(){
+      var icon = document.getElementById("like");
+      var fullHeart = "https://cdn-icons-png.flaticon.com/512/833/833300.png"
+      var emptyHeart = "https://cdn-icons-png.flaticon.com/512/833/833472.png"
+      
+      if(icon.src == fullHeart ) {
+        icon.setAttribute("src", emptyHeart);
+      }
+      else {
+        icon.setAttribute("src", fullHeart);
+      }
+        
+    }
     
   </script>
 {% endblock %}

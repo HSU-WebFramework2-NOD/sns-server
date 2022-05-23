@@ -1,22 +1,765 @@
+
+
+
 {% extends 'layout.html' %}
 
+
 {% block content %}
-  <div class="timeline">
-    <div class="followings half">
-      <h2>팔로잉 목록</h2>
-      {% if user.Followings %}
-        {% for following in user.Followings %}
-          <div>{{following.nickname}}</div>
-        {% endfor %}
-      {% endif %}
+  <style>
+    #my-profile {
+      display: none;}
+    #logout {display: none;}
+    * { box-sizing: border-box; padding: 0; margin: 0;}
+    html, body { margin: 0; padding: 0; height: 100%; }
+    a {text-decoration: none; color: #333;}
+    ul , li {list-style: none;}
+    .btn {
+      display: inline-block;
+      padding: 0 5px;
+      text-decoration: none;
+      cursor: pointer;
+      border-radius: 4px;
+      background: white;
+      border: 1px solid silver;
+    /*  color: crimson; */
+      height: 37px;
+      line-height: 37px;
+      vertical-align: top;
+      font-size: 12px;
+    }
+    /* input[type='text'], */ input[type='email'], input[type='password'], textarea {
+      border-radius: 4px;
+      height: 37px;
+      padding: 10px;
+      border: 1px solid silver;
+    }
+    .container { width: 100%; height: 100%; }
+
+    .input-group { 
+      margin-bottom: 10px;
+      
+    }
+
+    .input-group label { 
+      width: 25%; 
+      display: inline-block; }
+    .input-group input { width: 70%; }
+
+    .profile-wrap {
+      width: 400px;
+      height: 250px;
+      display: inline-block;
+      vertical-align: top;
+    /*  margin: 10px 0; */
+    position: fixed;
+    top: 0px;
+    }
+
+    .h_num {
+      display: flex;
+      align-items: center;
+    }
+
+    .half {
+      display: flex;
+      align-items: center;
+      padding: 5px 15px;
+      padding-left: 0;
+    }
+
+    .profile {
+
+      text-align: left;
+      padding-left: 50px;
+      padding-top: 40px;
+      margin-right: 20px;
+    /*  border-radius: 4px;
+      border: 1px solid silver; */
+    /*  background: lightcoral; */
+    }
+
+    .user-name {
+      margin-top: 20px;
+    }
+
+    .pro_top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .post li svg {
+      position: absolute;
+        bottom: 5px;
+        right: 5px;
+        color: red;
+        margin-right: 10px;
+        font-size: 1.5em;
+    }
+
+
+    .pro_top button {
+      display: block;
+      padding: 5px 13px;
+      font-weight: bold;
+      color: #777;
+      border: 1px solid #ccc;
+      border-radius: 15px;
+      background-color: #fff;
+    }
+
+    .user-name { 
+      font-weight: bold; 
+      font-size: 30px; }
+    .user-email{
+      font-size: 23px;
+      color: darkgray;
+    }
+    .count { 
+      font-weight: bold; 
+      /* color: crimson;  */
+      font-size: 22px;
+    }
+    .follow{
+    /*  font-weight: bolder; */
+      font-size: 20px;
+      color: darkgray;
+    }
+
+    .middle{
+      width: 600px;
+      margin-left: 400px;
+      margin-top:70px;
+      /* margin-top: -690px; */
+      /* margin-top: -38px; */
+    }
+    .box {
+      width: 500px;
+      height: 250px;
+
+    }
+    .timeline {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .timeline2 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .header{
+    /*   margin-top: -286px; */
+      padding-top: 10px;
+      padding-bottom: 5px;
+      font-size: 35px;
+      font-weight: bolder;
+      width: 600px;
+      border-left:2px solid #ececec;
+    /*  margin-left: 320px; */
+    /*   border-top: 1px solid silver; */
+      border-bottom: 3px solid #ececec;
+      padding-bottom: 11px;
+      position: fixed;
+      top:0;
+      background-color: white;
+    }
+    #my-profile{
+    font-size: 18px;
+    padding-left: 50px;
+    padding-right: 50px;
+
+    margin-top: 10px;
+    background-color: #ececec;
+    border:2px solid darkgray;
+    color:#808080;
+    /* font-weight: bolder; */
+    }
+    #logout{
+      margin-top: 10px;
+      background-color: #ececec;
+    border:2px solid darkgray;
+    color:#808080;
+    }
+    #login-form{
+      width: 300px;
+      height: 50px;
+      margin-top:0;
+    }
+
+    #twit-form {
+      width: 400px;
+      border: 1px solid silver;
+      border-right:none;
+      border-right:2px solid #ececec;
+      border-top:2px solid #ececec;
+      border-bottom: none;
+      border-left:none;
+      padding: 10px;
+      height: 510px;
+    /*  background: lightcoral; */
+      overflow: hidden;
+      float: left;
+      position: fixed;
+      top: 250px;
+      bottom: 0px;
+    }
+    #img-preview { 
+    width: 40px; 
+    height: 40px;}
+    #img-label {
+      float: left;
+      cursor: pointer;
+      border-radius: 4px;
+      border:2px solid darkgray;
+      color: #808080;
+      font-size: 14px;
+      height: 37px;
+      line-height: 37px;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+    #img { 
+      display: none; }
+    #twit { 
+      width: 100%; 
+      min-height: 300px
+    }
+    #twit-btn {
+      float: right;
+      color: #808080;
+      background-color: #ececec;
+    /*   background: crimson; */
+    border:2px solid darkgray;
+    font-size: 14px;
+    }
+    .twit {
+      border-bottom: 2px solid #f2f2f2;
+    /*  border-radius: 4px; */
+      padding: 10px;
+    /*   position: relative; */
+      margin-bottom: 10px;
+    /*   margin-left: 320px; */
+    }
+    /* .twits{
+      float: left;
+    } */
+
+    /* .search{
+      border-radius: 50px;
+      background-color: #ececec;
+      color: gray;
+      border: none;
+      padding: 10px;
+      padding-left: 60px;
+      margin-right: 20px;
+      margin-top:20px;
+    } */
+
+    .search-icon{
+        display: flex;
+        justify-content: space-between;
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        left: 10px;
+        
+        color: #808080;
+    }
+    .twit-author { 
+      display: inline-block; 
+      font-weight: bold; 
+      margin-right: 10px; 
+      font-size: 25px;
+    }
+    .twit-email{
+      display: inline-block; 
+      font-weight: bold; 
+      margin-right: 10px; 
+      /* font-size: 25px; */
+      color: darkgray;
+    }
+    .twit-follow {
+      padding: 1px 5px;
+      background: #fff;
+      border: 1px solid silver;
+      border-radius: 5px;
+      color:black;
+      /* color: crimson; */
+      font-size: 12px;
+      cursor: pointer;
+      float: right;
+    }
+    .twit-img { text-align: center; }
+    .twit-img img { max-width: 75%; }
+    .error-message { color: red; font-weight: bold; }
+    #search-form { text-align: right; }
+    #join-form { 
+      padding: 10px; 
+      text-align: left; 
+      margin-left: 400px;
+      width: 580px;
+    }
+    #hashtag-form { 
+      text-align: right; 
+      margin-left: 1000px;
+      border: 1px solid silver;
+      border-left:2px solid #ececec;
+      border-right: none;
+      border-top:none;
+      border-bottom: none;
+      /* margin-top: -250px; */
+      padding-bottom: 700px;
+      padding-left: 20px;
+      padding-right: 5px;
+      position: fixed;
+      top: 0px;
+    }
+    footer { text-align: center; }
+
+    .box2 {
+      width: 450px;
+      max-height: 380px;
+      margin-left: 20px;
+      overflow: hidden;
+      border: 1px solid #ccc;
+    }
+    .foll {
+      width: 100%;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      /* border-top: 1px solid #ccc; */
+    }
+
+    .foll p {
+      width: 50%;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      border-bottom: 1px solid #ccc;
+      font-weight: bold;
+      color: #ccc;
+      cursor: pointer;
+    }
+
+
+
+    input {
+    /*  border: 1px solid #F1F1F1;
+      border-radius: 50px;
+      width: 100%;
+      height: 100%; */
+      border-radius: 50px;
+      background-color: #ececec;
+      color: gray;
+      border: none;
+    /*  width: 100%; */
+      height: 100%;
+
+      padding: 15px;
+      padding-left: 60px;
+      margin-right: 20px;
+      margin-top:20px;
+    }
+
+    .icon {
+      
+      display: flex;
+      justify-content: space-between;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      left: 10px;
+      margin-left: 30px;
+      margin-top:21px;
+    }
+
+    .search_ {
+      color: #808080;
+    }
+
+    /* 회원가입 */
+    #join-email{
+
+      background-color: white;
+      width: 170px;
+    }
+    #join-nick{
+    
+      border-radius: 4px;
+        height: 37px;
+        padding: 10px;
+        border: 1px solid silver;
+        background-color: white;
+        width: 170px;
+    }
+    #join-password{
+
+      background-color: white;
+      width: 170px;
+    }
+    #kakao{
+      color: black;
+      width: 240px;
+      background-color: #ececec;
+      font-size: 15px;
+      margin-top: 10px;
+      text-align: center;
+    }
+    #join{
+      color:black;
+      width: 240px;
+      background-color: #ececec;
+      font-size: 15px;
+      margin-top: 10px;
+      font-display: middle;
+      text-align: center;
+    }
+    #email{
+      background-color: white;
+      width: 240px;
+    /*  float: left;  */
+
+    }
+    #password{
+      margin-top: 5px;
+      background-color: white;
+      width: 240px;
+    }
+    #login{
+      float: left;
+      width: 240px;
+      background-color: #ececec;
+      font-size: 15px;
+      font-weight: bolder;
+      margin-top: 10px;
+    }
+
+    .login{
+      font-size: 20px;
+      font-weight: bolder;
+    margin-left: -20px;
+    margin-top: -25px;
+    width: 250px;
+    }
+
+    #join-btn{
+      width: 240px;
+      font-size: 15px;
+      font-weight: bolder;
+      background-color: #ececec;
+
+      margin-left: 30px;
+      margin-top: 20px;
+    }
+
+    .foll p.chk {
+      border-bottom: 1px solid #4598eb;
+      color: #333;
+    }
+
+
+    .box2_bottom {
+      width: 100%;
+      overflow-y: scroll;
+      max-height: 350px;
+    }
+
+    .box2_bottom::-webkit-scrollbar {
+      width: 0;
+    }
+
+    .ow {
+      display: none;
+    }
+
+    .foll_ul {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      padding-bottom: 10px;
+      min-height: 350px;
+      height: auto;
+    }
+
+    .foll_ul li {
+      width: 100%; 
+      height: 50px;
+      padding: 0 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .foll_ul li button {
+      width: 80px;
+      border-radius: 15px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      height: 30px;
+      text-align: center;
+    }
+
+    .foll_ul li h3 {
+      line-height: 20px;
+      margin: 0;
+    }
+
+    .foll_ul li span {
+      color: #ccc;
+    }
+
+    .con {
+      display: flex;
+      height: 100%;
+      justify-content: flex-start;
+    }
+
+    .con2 {
+      margin-top: 50px;
+      width: 62.5%;
+      height: auto;
+      border: 1px solid #ccc;
+
+    }
+    .table {
+      width: 100%;
+      height: 100%; /* here - 1*/
+      min-height: 500px;
+      height: auto;
+    }
+
+    .table {
+      padding: 0;
+      margin: 0;
+    }
+
+    .table_top {
+      width: 100%;
+      padding: 0 20px;
+      height: 60px;
+      line-height: 60px;
+      border-bottom: 1px solid #ccc;
+      font-size: 1.2rem;
+    }
+
+
+    .table_bottom::-webkit-scrollbar {
+      width: 0;
+    }
+
+    .table_bottom {
+      width: 100%;
+      height: 520px;
+      overflow-y: scroll;
+      scrollbar-width: none;
+
+    }
+
+    .post li {
+      /* width: 100%;
+      min-height: 200px; */
+      border-bottom: 1px solid #ccc;
+      padding: 20px;
+      padding-bottom: 60px;
+      position: relative;
+    }
+
+    /* .post li p {
+      font-size: 12px;
+      color: #666;
+    } */
+
+    .post li h3 {
+      margin-bottom: 10px;
+
+    }
+
+    .twit_email{
+      color: darkgray;
+      font-size: 15px;
+    }
+    /* pagination */
+    .page{
+      text-align: center;
+      width: 100%;
+      display: inline-flex;
+      justify-content: center;
+    }
+
+    .pagination {
+      list-style: none;
+      display: inline-block;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    .pagination li {
+      display: inline;
+      text-align: center;
+    }
+
+    .pagination a{
+      float: left;
+      display: block;
+      font-size: 14px;
+      text-decoration: none;
+      color: rgb(147, 146, 146);
+    }
+
+    .first{
+      margin-right: 15px;
+    }
+
+    .last {
+      margin-left: 15px;
+    }
+
+    .first:hover, .last:hover, .left:hover, .right:hover {
+      color:rgb(101, 100, 100);
+    }
+
+    .pagination a.active {
+      cursor: default;
+      color: #ffffff;
+    }
+
+    .pagination a.active {
+      outline: none;
+    }
+
+    .modal .num {
+      margin-left:  3px;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      border-radius: 100%
+
+    }
+
+    .modal .num:hover {
+      background-color:gray;
+      color:#ffffff;
+    }
+
+
+  </style>
+
+  <div class="con">
+    <div class="con1">
+      <div class="box">
+  
+      </div>
+      <div class="box2">
+        <div class="foll">
+          <p class="ing_btn chk">팔로잉</p>
+          <p class="ow_btn">팔로워</p>
+        </div>
+        <div class="box2_bottom">
+          <ul class="foll_ul ing">
+            {% if user.Followings %}
+              {% for following in user.Followings %}
+
+                <li>
+                  <div class="name">
+                    <h3>{{following.nickname}}</h3>
+                    <span>@{{following.nickname}}</span>
+                  </div>
+                  <button>팔로잉</button>
+                </li>
+              {% endfor %}
+          {% endif %}
+
+
+          </ul>
+          <ul class="foll_ul ow">
+
+            {% if user.Followers %}
+            {% for follower in user.Followers %}
+            <li>
+              <div class="name">
+                <h3>{{follower.nickname}}</h3>
+                <span>@{{follower.nickname}}</span>
+              </div>
+              <button>팔로잉</button>
+            </li>
+            {% endfor %}
+          {% endif %}
+    
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class="followers half">
-      <h2>팔로워 목록</h2>
-      {% if user.Followers %}
-        {% for follower in user.Followers %}
-          <div>{{follower.nickname}}</div>
-        {% endfor %}
-      {% endif %}
+    <div class="con2">
+      <div class="table">
+        <div class="table_top">
+          <h3>포스팅 목록</h3>
+        </div>
+        <div class="table_bottom">
+          <ul class="post">
+
+            {% for twit in twits %}
+            {% if twit.User.id == user.id %}
+              
+              <li> 
+       <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
+                <input type="hidden" value="{{twit.id}}" class="twit-id">
+                <h2 >{{twit.User.nickname}} <span class="twit_email">{{twit.User.email}}</span></h2>
+
+                <p>{{twit.content}}</p>
+                  {% if twit.img %}
+                  <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
+                  {% endif %}
+                  <i class="fa fa-heart fa-2x"></i>
+           
+              </li>
+              {% endif %}
+          
+
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="page">
+        <ul class="pagination modal">
+          <li> <a href="/profile?page=1&perPage=10" class="first"><<<</a> </li>
+          <li> <a href="/profile?page=1&perPage=10" class="num">1</a> </li>
+          <li> <a href="/profile?page=2&perPage=10" class="num">2</a> </li>
+          <li> <a href="/profile?page=3&perPage=10" class="num">3</a> </li>
+          <li> <a href="/profile?page=4&perPage=10" class="num">4</a> </li>
+          <li> <a href="/profile?page=5&perPage=10" class="num">5</a> </li>
+          <li> <a href="/profile?page=5&perPage=10" class="last">>>></a> </li>
+        </ul>
+      </div>
     </div>
   </div>
 {% endblock %}
+
+{% block script %}
+
+  <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script>
+    $(function(){
+      $(document)
+      .on("click" , ".ing_btn", function(){
+        $(".ow_btn").removeClass("chk");
+        $(this).addClass("chk");
+        $(".ing").css("display" , "block")
+        $(".ow").css("display" , "none")
+      })
+      .on("click" , ".ow_btn", function(){
+        $(".ing_btn").removeClass("chk");
+        $(this).addClass("chk");
+        $(".ow").css("display" , "block")
+        $(".ing").css("display" , "none")
+      })
+    })
+
+  </script>
+{% endblock %}
+
+
+

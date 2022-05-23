@@ -1,7 +1,7 @@
 /* * { box-sizing: border-box; } */
 html, body { margin: 0; padding: 0; height: 100%; }
 
-body {width: 100%; height: 100%; top: 0; }
+body {width: 100%; height: 100%; top: 0; overflow-x: hidden;}
 input[type='text'], input[type='email'], input[type='password'], textarea {
   border-radius: 4px;
   height: 37px;
@@ -12,15 +12,22 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
 @media screen and (min-width: 800px) {
   .container { width: 100%; height: 100%; }
 }
-.input-group { margin-bottom: 15px; display: inline-flex; }
+.input-group { width: 90%; margin-bottom: 15px;}
 .input-group label { width: 70px; font-size: 0.9em; align-self: center; }
-.input-group input { width: 70%; height: 20px; }
+.input-group input { width: 100%; height: 20px; }
 .half { float: left; width: 50%; margin: 10px 0; }
+.halfContainer{
+  width: 100%;
+}
 #join { float: right; }
-.profile-wrap {
-  width: 330px;
+.profileContainer {
+  width: 100%;
   height: 100%;
-  display: inline-block;
+}
+.profile-wrap {
+  width: 25%;
+  height: 100%;
+  /* display: inline-block; */
   vertical-align: top;
   position: fixed;
   /* pointer-events: none; */
@@ -28,16 +35,16 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   border-right: 1px solid silver;
 }
 @media screen and (min-width: 800px) {
-  .profile-wrap { width: 330px; height: 100%;
+  .profile-wrap { width: 25%; height: 100%;
    }
 }
 .profile {
   /* position: fixed; */
-  width: 220px;
+  width: 60%;
   height: 130px;
   text-align: left;
-  padding-left: 55px;
-  padding-right: 55px;
+  padding-left:25%;
+  padding-right: 20%;
   padding-top: 20px;
   padding-bottom: 20px;
 }
@@ -82,13 +89,13 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
 #underProfile{
   /* position: fixed; */
   /* margin-top: 200px; */
-  width: 330px;
+  width:100%;
   border-bottom: 1px solid silver;
 }
 
 .timeline {
-  padding-left: 330px;
-  width: 800px;
+  padding-left: 25%;
+  width: 50%;
   min-height: 1000px;
   display: inline-flex;
   border-radius: 4px;
@@ -98,14 +105,26 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   position: absolute;
 }
 
-@media screen and (min-width: 807px) { .timeline { width: 807px; } }
+@media screen and (min-width: 807px) { .timeline { width: 50%;
+ } }
+
+.home{
+  width: 100%;
+
+}
+
+.formContainer {
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+}
 #twit-form {
   /* position: fixed; */
-  margin-top: 15px;
-  width:280px;
+  margin-top: 10%;
+  width:90%;
   height: 300px;
-  padding: 15px;
-  /* padding-top: 230px; */
+  padding-left: 10%;
+  padding-right: 10%;
 }
 #img-preview { max-width: 100%; }
 #img-label {
@@ -124,7 +143,7 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   border: 1px solid gray;
 }
 #img { display: none; }
-#twit { width: 280px; min-height: 72px;
+#twit { width: 90%; min-height: 72px;
 height: 200px; }
 #twit-btn {
   float: right;
@@ -145,19 +164,22 @@ height: 200px; }
 }
 
 #uploadContainer{
-  width: 300px;
+  width: 85%;
 }
 
 #h1container{
-  width: 787px;
+  width:50%;
   border-bottom: 1px solid silver;
   margin-bottom: 20px;
-  padding-left: 20px;
+  /* padding-left: 20px; */
   position: fixed;
-  z-index: 2;
+  z-index: 3;
   background-color: white;
 }
 
+h1 {
+  margin-left: 20px;
+}
 #tophref{
   text-decoration: none;
   color: black;
@@ -166,6 +188,7 @@ height: 200px; }
 .twits{
   z-index: 2;
   padding-top: 100px;
+  width: 100%;
 }
 
 #top {
@@ -173,18 +196,20 @@ height: 200px; }
 }
 
 #twitContainer{
-  padding-left: 20px;
-  padding-right: 20px;
+  display: inline-flex;
+  justify-content: center;
+  width: 100%;
   z-index: 2;
 }
 .twit {
-  width: 745px;
+  /* width: 700px; */
+  width: 90%;
   border: 1px solid silver;
   border-radius: 4px;
   padding: 10px;
-  position: relative;
-  margin-bottom: 10px;
+  /* position: relative; */
   z-index: 2;
+  margin-bottom: 10px;
 }
 .twit-author { 
   display: inline-block; 
@@ -220,14 +245,13 @@ height: 200px; }
 }
 .twit-img { text-align: center; }
 .twit-img img { 
-  max-width: 75%; 
-  max-height: 250px;
+  max-width: 50%; 
   margin-top: 10px;
 }
 .error-message { color: red; font-weight: bold; }
 #search-form { text-align: right; }
 #join-form { padding: 10px; text-align: center; margin-left: 250px; margin-top: 100px; }
-#hashtag-form { width: 300; border-radius: 10px; }
+
 #searchbar {
   background-color: rgb(234, 233, 233);
   border-radius: 30px;
@@ -253,12 +277,15 @@ height: 200px; }
 footer { text-align: center; }
 
 #feedRight{
-  padding-left: 820px;
-  margin-left: 20px;
-  width:350px;
-  height: 100%;
+  padding-left: 50%;
+  width:25%;
   position: fixed;
-  border-right: 1px solid silver;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.searchContainer{
+  width: 80%;
 }
 
 #buttons {
@@ -327,13 +354,14 @@ footer { text-align: center; }
 }
 
 .twits2 {
-  margin-top: 50px;
+  margin-top: 30px;
+  width: 80%;
 }
 
 .twit3 {
   border: 1px solid silver;
   border-radius: 5px;
-  width: 250px;
+  width: 260px;
   text-align: left;
   margin-bottom: 10px;
   padding: 10px;
@@ -342,7 +370,7 @@ footer { text-align: center; }
 .twit2 {
   border: 1px solid silver;
   border-radius: 5px;
-  width: 250px;
+  width: 260px;
   padding: 10px;
   height: 25px;
   text-align: left;
@@ -372,4 +400,71 @@ footer { text-align: center; }
 
 #likebtn{
   text-align: right;
+}
+
+
+
+
+
+.page{
+  text-align: center;
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.pagination {
+  list-style: none;
+  display: inline-block;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.pagination li {
+  display: inline;
+  text-align: center;
+}
+
+.pagination a{
+  float: left;
+  display: block;
+  font-size: 14px;
+  text-decoration: none;
+  color: rgb(147, 146, 146);
+}
+
+.first{
+  margin-right: 15px;
+}
+
+.last {
+  margin-left: 15px;
+}
+
+.first:hover, .last:hover, .left:hover, .right:hover {
+  color:rgb(101, 100, 100);
+}
+
+.pagination a.active {
+  cursor: default;
+  color: #ffffff;
+}
+
+.pagination a.active {
+  outline: none;
+}
+
+.modal .num {
+  margin-left:  3px;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 100%
+
+}
+
+.modal .num:hover {
+  background-color:gray;
+  color:#ffffff;
 }

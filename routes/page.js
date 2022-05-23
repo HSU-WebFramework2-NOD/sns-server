@@ -1,6 +1,6 @@
 const express = require('express');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
-const { Post, User, Hashtag } = require('../models');
+const { Post, User, Hashtag, Like } = require('../models');
 const Op = require("sequelize").Op;
 
 const router = express.Router();
@@ -13,8 +13,38 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get('/profile', isLoggedIn, (req, res) => {
-  res.render('profile', { title: 'Profile - NOD' });
+// router.get('/profile', isLoggedIn, (req, res) => {
+//   res.render('profile', { title: 'Profile - NOD' });
+// });
+router.get('/profile', isLoggedIn, async(req, res) => {
+  try {          
+  const page = Number(req.query.page || 1); // 값이 없다면 기본값으로 1 사용
+  const perPage = Number(req.query.perPage || 10);
+   /* const total = await Post.countDocument({});  아래 total지우고 이부분을 총 document수 받아오는걸로 변경 */
+  const total = 20;
+  const totalPage = Math.ceil(total / perPage);
+  const posts = await Post.findAll({
+    include: {
+      model: User,
+      attributes: ['id', 'nickname','email'],
+    },
+    order: [['createdAt', 'DESC']],
+   /*  sort: {'createdAt':-1}, */
+    offset: perPage * (page - 1),
+    limit:perPage,
+    })
+
+    res.render('profile', {
+    title: 'NOD',
+    twits: posts,
+    totalPage: totalPage,
+    });
+
+} catch (err) {
+  console.error(err);
+  next(err);
+}
+
 });
 
 router.get('/join', isNotLoggedIn, (req, res) => {
@@ -25,8 +55,8 @@ router.get('/', async (req, res, next) => {
   try {           /*  http://localhost:8001/?page=1&perPage=10 */
     const page = Number(req.query.page || 1); // 값이 없다면 기본값으로 1 사용
 		const perPage = Number(req.query.perPage || 10);
-		 /* const total = await Post.countDocument({});  아래 total지우고 이부분을 총 document수 받아오는걸로 변경 */
-		const total = 20;
+		 const total = await Post.count({});  //아래 total지우고 이부분을 총 document수 받아오는걸로 변경 */
+		// const total = 20;
     const totalPage = Math.ceil(total / perPage);
 		const posts = await Post.findAll({
 			include: {
@@ -37,8 +67,7 @@ router.get('/', async (req, res, next) => {
      /*  sort: {'createdAt':-1}, */
       offset: perPage * (page - 1),
       limit:perPage,
-		  })
-		  
+		  });
 
 		  res.render('main', {
 			title: 'NOD',
@@ -127,6 +156,48 @@ router.get('/hashtag', async (req, res, next) => {
   } catch (error) {
     console.error(error);
     return next(error);
+  }
+});
+
+router.post('/like', isLoggedIn, async (req, res, next) => {
+  const { myId, postId } = req.body;
+  console.log(`${myId} + ${postId}`);
+  try {
+    const like = await Like.create({
+      UserId: myId,
+      PostId: postId,
+    });
+
+    const page = Number(req.query.page || 1);
+		const perPage = Number(req.query.perPage || 10);
+    const feed = await Post.findAll({
+			include: {
+			  model: User,
+			  attributes: ['id', 'nickname','email'],
+        // model: Like,
+        // attributes: ['UserId', 'PostId'],
+			},
+      order: [['createdAt', 'DESC']],
+     /*  sort: {'createdAt':-1}, */
+      offset: perPage * (page - 1),
+      limit:perPage,
+		  });
+      
+      const likes = await Like.findAll({
+        where: {
+          UserId: myId,
+        }
+      });
+
+    return res.render('main', {
+      title: `NOD`,
+      twits: feed,
+      likes: likes,
+    });
+
+  } catch (err) {
+    console.error(err);
+    next(err);
   }
 });
 
