@@ -30,10 +30,10 @@
 
             <div id="likebtn">
               <!-- 좋아요버튼 -->
-              {% if user.id == like.UserId %}
+              {% if user.id !== twit.UserId or user.id !== likeList.UserId %}
               <img id="like" src="https://cdn-icons-png.flaticon.com/512/833/833300.png" width="20px" onclick="like()" alt="{{like.UserId}}">
               {% endif %}
-              {% if user.id !== like.UserId %}
+              {% if user.id == twit.UserId %}
               <img id="dislike" src="https://cdn-icons-png.flaticon.com/512/833/833472.png" width="20px" onclick="like()" alt="{{like.UserId}}">
               {% endif %}
             </div>
@@ -180,8 +180,10 @@
         const myId = document.querySelector('#my-id').value;
         const postId = tag.parentNode.parentNode.querySelector('.twit-id').value;
         axios.delete('/dislike', {
-          myId,
-          postId
+          data: {
+            myId,
+            postId
+          }
         }, null)
         .catch((err) => {
           console.error(err);
