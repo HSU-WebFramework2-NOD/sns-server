@@ -16,11 +16,11 @@
         <div class="profile1">
           <div class="pro_top1">
             <a href="/"><i class="fa fa-home fa-2x"></i></a>
-            <button>프로필 수정</button>
+            <a href="/edit"><button>프로필 수정</button></a>
           </div>
           {% if user and user.id %}
-            <div class="user-name1">{{ user.nickname}}</div>
-            <div class="user-email1">{{ user.email}}</div>
+            <div class="user-name1">{{user.nickname}}</div>
+            <div class="user-email1">{{user.email}}</div>
             <div class="h_num1">
               <div class="half1">
                 <div class="count1">{{followingCount}}</div>
@@ -111,32 +111,41 @@
             </div> -->
             <div class="table_bottom">
               <ul class="post">
-    
                 {% for twit in twits %}
-                {% if twit.User.id == user.id %}
-                  
-                  <li> 
-           <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
-                    <input type="hidden" value="{{twit.id}}" class="twit-id">
-                    <h2 >{{twit.User.nickname}} <span class="twit_email">{{twit.User.email}}</span></h2>
-    
-                    <p>{{twit.content}}</p>
+                  {% if twit.UserId == user.id %}
+                    <li> 
+                      <input type="hidden" value="{{twit.UserId}}" class="twit-user-id">
+                      <input type="hidden" value="{{twit.id}}" class="twit-id">
+                      <h2 >{{twit.nickname}} <span class="twit_email">{{twit.email}}</span></h2>
+      
+                      <p>{{twit.content}}</p>
                       {% if twit.img %}
-                      <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
+                        <div class="twit-img">
+                          <img src="{{twit.img}}" alt="섬네일">
+                        </div>
                       {% endif %}
-                      <i class="fa fa-heart fa-2x"></i>
-               
-                  </li>
+
+                      <!-- <i class="fa fa-heart fa-2x"></i> -->
+                      <div id="likebtn">
+                        <!-- 빈 하트 누르면 like이므로 id가 like : likeId가 없거나 user.id랑 같지 않은 경우 -->
+                        {% if not twit.likeId or user.id !== twit.likeId %}
+                        <img id="like" src="https://cdn-icons-png.flaticon.com/512/833/833300.png" width="20px" onclick="like()" alt="{{twit.UserId}}//{{twit.likeId}}">
+                        {% endif %}
+                        <!-- 채워진 하트 누르면 dislike이므로 id를 dislike로 함 : likeId가 있고 유저아이디랑 같아야 함 -->
+                        {% if twit.likeId and user.id == twit.likeId %}
+                        <img id="dislike" src="https://cdn-icons-png.flaticon.com/512/833/833472.png" width="20px" onclick="like()" alt="{{twit.UserId}}">
+                        {% endif %}
+                      </div>
+                
+                    </li>
                   {% endif %}
-              
-    
                 {% endfor %}
               </ul>
             </div>
           </div>
           <div class="page">
             <ul class="pagination modal">
-              <li> <a href="/profile?page=1&perPage=20" class="first"><<<</a> </li>
+              <li> <a href="/profile?page=1&perPage=10" class="first"><<<</a> </li>
               <li> <a href="/profile?page=1&perPage=10" class="num">1</a> </li>
               <li> <a href="/profile?page=2&perPage=10" class="num">2</a> </li>
               <li> <a href="/profile?page=3&perPage=10" class="num">3</a> </li>
@@ -149,14 +158,14 @@
       </div>
     {% endblock %}
     </div>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script>
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <!-- <script>
       window.onload = () => {
         if (new URL(location.href).searchParams.get('loginError')) {
           alert(new URL(location.href).searchParams.get('loginError'));
         }
       };
-    </script>
+    </script> -->
    {% block script %}
 
    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -176,6 +185,55 @@
          $(".ing").css("display" , "none")
        })
      })
+     document.querySelectorAll('#like').forEach(function(tag) {
+      tag.addEventListener('click', function() {
+        const myId = document.querySelector('#my-id').value;
+        const postId = tag.parentNode.parentNode.querySelector('.twit-id').value;
+        axios.post('/like', {
+          myId,
+          postId
+        }, null)
+        .catch((err) => {
+          console.error(err);
+        })
+      });
+    });
+    document.querySelectorAll('#dislike').forEach(function(tag) {
+      tag.addEventListener('click', function() {
+        const myId = document.querySelector('#my-id').value;
+        const postId = tag.parentNode.parentNode.querySelector('.twit-id').value;
+        axios.delete('/dislike', {
+          data: {
+            myId,
+            postId
+          }
+        }, null)
+        .catch((err) => {
+          console.error(err);
+        })
+      });
+    });
+
+    function like(){
+      var icon = document.getElementById("like");
+      var icon2 = document.getElementById("dislike");
+      var fullHeart = "https://cdn-icons-png.flaticon.com/512/833/833300.png"
+      var emptyHeart = "https://cdn-icons-png.flaticon.com/512/833/833472.png"
+      
+      if(icon.src == fullHeart) {
+        icon.setAttribute("src", emptyHeart);
+      }
+      else if (icon2.src == fullHeart) {
+        icon2.setAttribute("src", emptyHeart);
+      }
+      else if (icon.src == emptyHeart) {
+        icon.setAttribute("src", fullHeart);
+      }
+      else {
+        icon2.setAttribute("src", fullHeart);
+      }
+        
+    } 
  
    </script>
  {% endblock %}
