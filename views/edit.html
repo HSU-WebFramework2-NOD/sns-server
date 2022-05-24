@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="/edit.css">
+{% block content %}
+  <div >
+    <form id="join-form1" action="/auth/join" method="post">
+      <div class="top">프로필 수정</div>
+      <div class="input-group1">
+        <label id="edit" for="join-email">이메일</label>
+        <input id="join-email1" type="email" name="email" placeholder="{{user.email}}"></div>
+      <div class="input-group1">
+        <label id="edit" for="join-nick">닉네임</label>
+        <input id="join-nick1" type="text" name="nickname" placeholder="{{user.nickname}}"></div>
+      <div class="input-group1">
+        <label id="edit" for="join-password1">비밀번호</label>
+        <input id="join-password1" type="password" name="password" placeholder="{{user.password}}">
+      </div>
+     <button id="join-btn1"> <a href="javascript:history.back();" id="join-btn2" type="submit" class="btn">수정완료</a></button>
+    </form>
+  </div>
+{% endblock %}
