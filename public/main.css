@@ -249,10 +249,9 @@ ul , li {list-style: none;}
 }
 
 .post li {
-
   border-bottom: 1px solid #ccc;
   padding: 20px;
-  padding-bottom: 60px;
+  padding-bottom: 2%;
   position: relative;
 }
 

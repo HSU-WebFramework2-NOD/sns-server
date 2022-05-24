@@ -15,12 +15,12 @@
         {% for twit in twits %}
         <div id="twitContainer">
           <div class="twit">
-            <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
+            <input type="hidden" value="{{twit.UserId}}" class="twit-user-id">
             <input type="hidden" value="{{twit.id}}" class="twit-id">
-            <div class="twit-author">{{twit.User.nickname}}</div>
-            <div class="twit-author-email">{{twit.User.email}}</div>
+            <div class="twit-author">{{twit.nickname}}</div>
+            <div class="twit-author-email">{{twit.email}}</div>
             
-            {% if not followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
+            {% if not followerIdList.includes(twit.UserId) and twit.UserId !== user.id %}
               <button class="twit-follow">팔로우</button>
             {% endif %}
             <div class="twit-content">{{twit.content}}</div>
@@ -29,12 +29,13 @@
             {% endif %}
 
             <div id="likebtn">
-              <!-- 좋아요버튼 -->
-              {% if user.id !== twit.UserId or user.id !== likeList.UserId %}
-              <img id="like" src="https://cdn-icons-png.flaticon.com/512/833/833300.png" width="20px" onclick="like()" alt="{{like.UserId}}">
+              <!-- 빈 하트 누르면 like이므로 id가 like : likeId가 없거나 user.id랑 같지 않은 경우 -->
+              {% if not twit.likeId or user.id !== twit.likeId %}
+              <img id="like" src="https://cdn-icons-png.flaticon.com/512/833/833300.png" width="20px" onclick="like()" alt="{{twit.UserId}}//{{twit.likeId}}">
               {% endif %}
-              {% if user.id == twit.UserId %}
-              <img id="dislike" src="https://cdn-icons-png.flaticon.com/512/833/833472.png" width="20px" onclick="like()" alt="{{like.UserId}}">
+              <!-- 채워진 하트 누르면 dislike이므로 id를 dislike로 함 : likeId가 있고 유저아이디랑 같아야 함 -->
+              {% if twit.likeId and user.id == twit.likeId %}
+              <img id="dislike" src="https://cdn-icons-png.flaticon.com/512/833/833472.png" width="20px" onclick="like()" alt="{{twit.UserId}}">
               {% endif %}
             </div>
           </div>
@@ -79,7 +80,7 @@
             <div class="twit3">
   
               
-              <input type="hidden" value="{{twit2.id}}" class="twit-user-id">
+              <input type="hidden" value="{{twit2.User.id}}" class="twit-user-id">
               <input type="hidden" value="{{twit2.id}}" class="twit-id">
               <div class="twit2-author">{{twit2.User.nickname}}</div>
               <div class="twit2-author-email">{{twit2.User.email}}</div>
@@ -191,20 +192,26 @@
       });
     });
 
-    // function like(){
-    //   var icon = document.getElementById("like");
-    //   var icon2 = document.getElementById("dislike");
-    //   var fullHeart = "https://cdn-icons-png.flaticon.com/512/833/833300.png"
-    //   var emptyHeart = "https://cdn-icons-png.flaticon.com/512/833/833472.png"
+    function like(){
+      var icon = document.getElementById("like");
+      var icon2 = document.getElementById("dislike");
+      var fullHeart = "https://cdn-icons-png.flaticon.com/512/833/833300.png"
+      var emptyHeart = "https://cdn-icons-png.flaticon.com/512/833/833472.png"
       
-    //   if(icon.src == fullHeart || icon2.src == fullHeart) {
-    //     icon.setAttribute("src", emptyHeart);
-    //   }
-    //   else {
-    //     icon.setAttribute("src", fullHeart);
-    //   }
+      if(icon.src == fullHeart) {
+        icon.setAttribute("src", emptyHeart);
+      }
+      else if (icon2.src == fullHeart) {
+        icon2.setAttribute("src", emptyHeart);
+      }
+      else if (icon.src == emptyHeart) {
+        icon.setAttribute("src", fullHeart);
+      }
+      else {
+        icon2.setAttribute("src", fullHeart);
+      }
         
-    // }
+    }
     
   </script>
 {% endblock %}
